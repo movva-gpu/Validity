@@ -1,7 +1,8 @@
 import { ActivityType, Events, GatewayIntentBits } from 'discord.js';
 import { ValidityClient } from './classes/ValidityClient';
-const fs = require('node:fs');
-const path = require('node:path');
+import fs from 'node:fs';
+import path from 'node:path';
+
 const { token } = require('../conf/conf.json');
 
 const client = new ValidityClient({ intents: [GatewayIntentBits.Guilds] });
