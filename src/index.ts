@@ -1,22 +1,12 @@
-import { ActivityType, Client, Collection, Events, GatewayIntentBits, SlashCommandBuilder } from 'discord.js';
+import { ActivityType, Events, GatewayIntentBits } from 'discord.js';
+import { ValidityClient } from './classes/ValidityClient';
 const fs = require('node:fs');
 const path = require('node:path');
 const { token } = require('../conf/conf.json');
 
+const client = new ValidityClient({ intents: [GatewayIntentBits.Guilds] });
 
 
-class ClientWithCommands extends Client {
-    public commands = new Collection<string, Command>();
-}
-
-type Command = {
-    data: SlashCommandBuilder
-    execute(arg1: any, arg2: any): Promise<void>
-}
-
-
-
-const client = new  ClientWithCommands({ intents: [GatewayIntentBits.Guilds] });
 
 client.once(Events.ClientReady, c => {
     console.log('Hello discord.js!\nI\'m logged in as ' + client.user?.tag + '!');
@@ -42,7 +32,7 @@ client.once(Events.ClientReady, c => {
 client.on(Events.InteractionCreate, async interaction => {
     if (!interaction.isChatInputCommand()) return;
 
-    const command = (interaction.client as ClientWithCommands).commands.get(interaction.commandName);
+    const command = (interaction.client as ValidityClient).commands.get(interaction.commandName);
     console.log(client.ws.ping);
     switch (interaction.commandName) {
         case 'ping':
@@ -53,6 +43,26 @@ client.on(Events.InteractionCreate, async interaction => {
             break;
     }
 });
+
+
+
+export function generateToken(length = 5): string {
+    const authorizedChars = 'abcdefghijklmnopqrstuvwxyz0123456789'
+    let token = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * authorizedChars.length);
+        token += authorizedChars.charAt(randomIndex);
+    }
+    return token;
+}
+
+export function generateUUID(UUIDLength = 6, tokensLength = 5): string {
+    let UUID = '';
+    for (let i = 0; i < UUIDLength - 1; i++) {
+        UUID += generateToken(tokensLength) + '-'
+    }
+    return UUID += generateToken(tokensLength);
+}
 
 
 
