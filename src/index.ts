@@ -1,8 +1,8 @@
-import { ActivityType, Events, GatewayIntentBits } from 'discord.js';
-import { ValidityClient } from './classes/ValidityClient';
-import * as fs from 'fs';
-import * as path from 'path';
-import { token, avatarUrl } from '../conf/clientConf.json';
+import { ActivityType, Events, GatewayIntentBits } from 'discord.js'
+import { ValidityClient } from './classes/ValidityClient'
+import * as fs from 'fs'
+import * as path from 'path'
+import { token, avatarUrl } from '../conf/clientConf.json'
 
 const client = new ValidityClient({ intents: [GatewayIntentBits.Guilds] });
 
@@ -25,7 +25,7 @@ client.once(Events.ClientReady, c => {
 
             folderContent = fs.readdirSync(path.join(commandPath, folderOrFileName));
             for (let y = 0; y < folderContent.length; y++) {
-                folderContent[y] = path.join(folderOrFileName, folderContent[y])
+                folderContent[y] = path.join(folderOrFileName, folderContent[y]);
             }
             commandFilesAndSubFolders.splice(i, 1);
 
@@ -53,8 +53,6 @@ client.once(Events.ClientReady, c => {
 client.on(Events.InteractionCreate, async interaction => {
     if (!interaction.isChatInputCommand()) return;
     console.log('[INFO] Slash Command received!');
-    console.log('[INFO] More informations on the command :\n', `Name: ${interaction.commandName}\n`,
-                `Subcommand?: ${interaction.options?.getSubcommand()}`);
     
     
     const command = (interaction.client as ValidityClient).commands.get(interaction.commandName);
@@ -68,6 +66,9 @@ client.on(Events.InteractionCreate, async interaction => {
             command?.execute(interaction);
             break;
     }
+
+
+
 });
 
 

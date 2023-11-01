@@ -1,6 +1,6 @@
-import { REST, RESTPutAPIApplicationCommandsResult, Routes } from 'discord.js';
-import fs from 'node:fs';
-import path from 'node:path';
+import { REST, RESTPutAPIApplicationCommandsResult, Routes } from 'discord.js'
+import fs from 'node:fs'
+import path from 'node:path'
 import { clientId, token } from '../conf/clientConf.json'
 
 let i = 0;
@@ -16,7 +16,7 @@ while (i < commandFilesAndSubFolders.length || i >= 100 || i <= -100) {
 
 		folderContent = fs.readdirSync(path.join(commandPath, folderOrFileName));
 		for (let y = 0; y < folderContent.length; y++) {
-			folderContent[y] = path.join(folderOrFileName, folderContent[y])
+			folderContent[y] = path.join(folderOrFileName, folderContent[y]);
 		}
 		commandFilesAndSubFolders.splice(i, 1);
 

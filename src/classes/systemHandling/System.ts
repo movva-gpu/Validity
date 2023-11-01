@@ -1,6 +1,6 @@
-import { generateUUID } from '../../globalCommands';
-import { Group } from './Group';
-import { Alter } from './Alter';
+import { generateUUID } from '../../globalCommands'
+import { Group } from './Group'
+import { Alter } from './Alter'
 
 export class System {
     uuid: string;

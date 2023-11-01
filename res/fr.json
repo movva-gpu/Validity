@@ -7,6 +7,9 @@
                     "description": "Donne l'aide des sous commandes de la commande \"system\""
                 }
             }
+        },
+        "info": {
+            "description": "Informations à propos du bot!"
         }
     }
 }

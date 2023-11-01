@@ -1,8 +1,8 @@
-import { generateToken } from '../../globalCommands';
+import { generateToken } from '../../globalCommands'
 
 export class Group {
     token: string;
-    alters: Array<string> // It will be registered as an Array of alters' token.
+    alters: Array<string>; // It will be registered as an Array of alters' token.
     color: string;
     avatar: string;
     banner: string;

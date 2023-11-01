@@ -1,4 +1,4 @@
-import { generateToken } from '../../globalCommands';
+import { generateToken } from '../../globalCommands'
 
 export class Alter {
     token: string;
