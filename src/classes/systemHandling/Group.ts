@@ -1,5 +1,4 @@
 import { generateToken } from '../../globalCommands';
-import { System } from "./System";
 
 export class Group {
     token: string;

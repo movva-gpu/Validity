@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, CommandInteractionOption, CacheType, SlashCommandSubcommandBuilder, ActionRowBuilder, ButtonStyle, ButtonBuilder } from 'discord.js';
+import { SlashCommandBuilder, ChatInputCommandInteraction, SlashCommandSubcommandBuilder, ActionRowBuilder, ButtonStyle, ButtonBuilder } from 'discord.js';
 // TODO : Add a way to find lang files and use them directly without importing them all to the code
 import enUsJson from '../../../res/en-us.json';
 import frJson from '../../../res/fr.json';
