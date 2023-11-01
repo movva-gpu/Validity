@@ -1,0 +1,12 @@
+{
+    "commands": {
+        "system": {
+            "description": "The system managing command. Do /system help to get more informations",
+            "subcommands": {
+                "help": {
+                    "description": "Gives help for the subcommands of \"system\" command"
+                }
+            }
+        }
+    }
+}

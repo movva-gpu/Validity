@@ -1,0 +1,12 @@
+{
+    "commands": {
+        "system": {
+            "description": "La commande de gestion du système. Excecute la commande /system help pour en savoir plus",
+            "subcommands": {
+                "help": {
+                    "description": "Donne l'aide des sous commandes de la commande \"system\""
+                }
+            }
+        }
+    }
+}

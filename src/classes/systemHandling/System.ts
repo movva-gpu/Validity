@@ -1,4 +1,4 @@
-import { generateUUID } from '../..';
+import { generateUUID } from '../../globalCommands';
 import { Group } from './Group';
 import { Alter } from './Alter';
 

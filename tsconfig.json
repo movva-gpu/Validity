@@ -19,5 +19,10 @@
     "types": [
       "bun-types" // add Bun global
     ],
-  }
+  },
+  "include": [
+    "src/**/*",
+    "res/*.json",
+    "conf/*.json"
+  ],
 }
