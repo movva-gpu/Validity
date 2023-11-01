@@ -2,7 +2,6 @@
 ## Summary
 1.  [About](#about)
 2.  [Installation](#install)
-<br>
 
 <div id=about>
 
