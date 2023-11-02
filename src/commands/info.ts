@@ -4,9 +4,9 @@ import frJson from '../../res/fr.json'
 import { invokeHelpEmbed } from "../globalCommands"
 
 export const data = new SlashCommandBuilder()
-                        .setName('info')
-                        .setDescription(enUsJson.commands.info.description)
-                        .setDescriptionLocalizations({ fr: frJson.commands.info.description });
+    .setName('info')
+    .setDescription(enUsJson.commands.info.description)
+    .setDescriptionLocalizations({ fr: frJson.commands.info.description });
 
 export function execute(interaction: ChatInputCommandInteraction): void {
     invokeHelpEmbed(0, interaction);

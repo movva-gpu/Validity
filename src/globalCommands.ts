@@ -33,9 +33,9 @@ export function generateUUID(UUIDLength = 6, tokensLength = 5): string {
 
 
 
-export function createFullEmbed(title: string, description: string | null = null, thumbnail: string | null = null,
-                                image: string | null = null, url: string | null = null, footer = embedDefaults.footer,
-                                color = embedDefaults.color as ColorResolvable): EmbedBuilder {
+export function createFullEmbed(title: string, description: string | null = null,
+        thumbnail: string | null = null, image: string | null = null, url: string | null = null,
+        footer = embedDefaults.footer, color = embedDefaults.color as ColorResolvable): EmbedBuilder {
     return new EmbedBuilder()
         .setColor(color)
         .setTitle(title)
@@ -43,19 +43,17 @@ export function createFullEmbed(title: string, description: string | null = null
         .setURL(url)
         .setDescription(description)
         .setImage(image)
-        .setFooter({
-            text: footer,
-            iconURL: embedDefaults.image
-        });
+        .setFooter({ text: footer, iconURL: embedDefaults.image });
 }
 
 export function createEmbed(title: string, description: string | null = null, url: string | null = null,
-                            footer = embedDefaults.footer, color = embedDefaults.color as ColorResolvable): EmbedBuilder {
+        footer = embedDefaults.footer, color = embedDefaults.color as ColorResolvable): EmbedBuilder {
     return new EmbedBuilder()
         .setColor(color)
         .setTitle(title)
         .setURL(url)
         .setDescription(description)
+        .setTimestamp()
         .setFooter({
         text: footer,
         iconURL: embedDefaults.image
@@ -64,18 +62,17 @@ export function createEmbed(title: string, description: string | null = null, ur
 
 export function createButton(emoji: ComponentEmojiResolvable, style: ButtonStyle, label: string): ButtonBuilder {
     return new ButtonBuilder()
-            .setEmoji(emoji)
-            .setStyle(style)
-            .setLabel(label);
+        .setEmoji(emoji)
+        .setStyle(style)
+        .setLabel(label);
 }
 
-export function invokeHelpEmbed(initialMainButton: InitialMainButton, interaction: ChatInputCommandInteraction): void {
+export function invokeHelpEmbed(initialMainButton: InitialMainButton,interaction: ChatInputCommandInteraction): void {
     const informationsEmbed = createFullEmbed(
         'Informations',
-        `Hello ^^! I'm Validity and I'm a Discord(TM) bot designed for
-        plural systems/teams/communities/etc, allowing you to register a system,
-        members of this system, groups, etc.`, image).addFields(
-            {
+        `Hello ^^! I'm Validity and I'm a Discord(TM) bot designed for plural systems/teams/communities/etc,
+        allowing you to register a system, members of this system, groups, etc.`, image)
+            .addFields({
                 'name': 'What are "plural systems"?',
                 'value': `According to [Pluralpedia](https://pluralpedia.org/w/Plurality),
                 a system is the collection of people and entities, often called headmates or alters,
@@ -86,14 +83,15 @@ export function invokeHelpEmbed(initialMainButton: InitialMainButton, interactio
                 'value': `It serves the exact same use as [PluralKit](https://pluralkit.me),
                 depending on a defined tag, called a proxy, a message will be replaced by a fake account,
                 with the name and the avatar defined by the member.`
-            }
-        );
+            });
     const systemSubCommandsEmbed = createEmbed(
         'System subcommands').addFields(
             { 'name': 'Help subcommand', 'value': '`/system help`\nIt give this embed!' });
     
-    const informationsButton = createButton('\u2139', ButtonStyle.Secondary, 'Bot informations').setCustomId('info');
-    const systemSubCommandsButton = createButton('📜', ButtonStyle.Secondary, 'System subcommands').setCustomId('syssubcom');
+    const informationsButton = createButton('\u2139', ButtonStyle.Secondary, 'Bot informations')
+        .setCustomId('info');
+    const systemSubCommandsButton = createButton('📜', ButtonStyle.Secondary, 'System subcommands')
+        .setCustomId('syssubcom');
     
     switch (initialMainButton) {
         case 0:
