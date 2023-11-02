@@ -12,7 +12,7 @@ export class Alter {
     desc: string;
 
     constructor(token = generateToken(), color = '', avatar = '', banner = '', name = '', displayName = '',
-                pronouns = '', desc = '') {
+            pronouns = '', desc = '') {
         this.token = token;
         this.color = color;
         this.avatar = avatar;

@@ -10,7 +10,8 @@ export class Group {
     date: string;
     desc: string;
 
-    constructor(token = generateToken(), alters = new Array<string>(), color = '', avatar = '', banner = '', name = '', desc = '') {
+    constructor(token = generateToken(), alters = new Array<string>(), color = '', avatar = '', banner = '',
+            name = '', desc = '') {
         this.token = token;
         this.alters = alters;
         this.color = color;
