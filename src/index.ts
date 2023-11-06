@@ -11,7 +11,7 @@ const client = new ValidityClient({ intents: [GatewayIntentBits.Guilds] });
 client.once(Events.ClientReady, c => {
     console.log('Hello discord.js!\nI\'m logged in as ' + client.user?.tag + '!');
     client.user?.setActivity({ name: 'Trying to understand iself.', type: ActivityType.Playing, state: 'online' });
-    client.user?.setAvatar(avatarUrl);
+//    client.user?.setAvatar(avatarUrl);
 
     let i = 0;
     const commandPath = path.join(import.meta.dir, 'commands');
