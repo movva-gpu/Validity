@@ -12,6 +12,9 @@ import {
 import { InitialMainButton } from "./enums"
 import * as embedDefaults from '../conf/embedDefaults.json'
 import { image } from '../conf/embedDefaults.json'
+import * as fs from 'fs'
+import { InteractionReplyError } from "./commands/system_handling/subcommands/create"
+import { Writable } from 'stream';
 
 export function generateToken(length = 5): string {
     const authorizedChars = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -23,12 +26,12 @@ export function generateToken(length = 5): string {
     return token;
 }
 
-export function generateUUID(UUIDLength = 6, tokensLength = 5): string {
-    let uuid = '';
-    for (let i = 0; i < UUIDLength - 1; i++) {
-        uuid += generateToken(tokensLength) + '-';
+export function generateUID(UIDLength = 6, tokensLength = 5): string {
+    let uid = '';
+    for (let i = 0; i < UIDLength - 1; i++) {
+        uid += generateToken(tokensLength) + '-';
     }
-    return uuid += generateToken(tokensLength);
+    return uid += generateToken(tokensLength);
 }
 
 
@@ -70,19 +73,19 @@ export function createButton(emoji: ComponentEmojiResolvable, style: ButtonStyle
 export function invokeHelpEmbed(initialMainButton: InitialMainButton,interaction: ChatInputCommandInteraction): void {
     const informationsEmbed = createFullEmbed(
         'Informations',
-        `Hello ^^! I'm Validity and I'm a Discord(TM) bot designed for plural systems/teams/communities/etc,
-        allowing you to register a system, members of this system, groups, etc.`, image)
+        'Hello ^^! I\'m Validity and I\'m a Discord(TM) bot designed for plural systems/teams/communities/etc,' +
+        'allowing you to register a system, members of this system, groups, etc.', image)
             .addFields({
                 'name': 'What are "plural systems"?',
-                'value': `According to [Pluralpedia](https://pluralpedia.org/w/Plurality),
-                a system is the collection of people and entities, often called headmates or alters,
-                that share a single physical plural body.` 
+                'value': 'According to [Pluralpedia](https://pluralpedia.org/w/Plurality),' +
+                'a system is the collection of people and entities, often called headmates or alters,' +
+                'that share a single physical plural body.'
             },
             {
                 'name': 'What is this bot for?',
-                'value': `It serves the exact same use as [PluralKit](https://pluralkit.me),
-                depending on a defined tag, called a proxy, a message will be replaced by a fake account,
-                with the name and the avatar defined by the member.`
+                'value': 'It serves the exact same use as [PluralKit](https://pluralkit.me),' +
+                'depending on a defined tag, called a proxy, a message will be replaced by a fake account,' +
+                'with the name and the avatar defined by the member.'
             });
     const systemSubCommandsEmbed = createEmbed(
         'System subcommands').addFields(
@@ -176,4 +179,29 @@ export function invokeHelpEmbed(initialMainButton: InitialMainButton,interaction
                 break;
         }
     });
+}
+
+export function stringOptionNormalize(interaction: ChatInputCommandInteraction, optionName: string, required = false): string | undefined {
+    if (interaction.options.getString(optionName, required) == null) return undefined;
+    return interaction.options.getString(optionName, required) as string;
+}
+
+export function saveDatabase(newDatabase: any): InteractionReplyError {
+    let replyError = InteractionReplyError.NoError;    
+    fs.writeFile('data/data.json', newDatabase, function(err) {
+        if (err) { console.error(err); replyError = InteractionReplyError.SavingError; } else { console.log('Database was saved'); }
+    });
+    return replyError;
+}
+
+
+export async function getUrlResponse<T>(url: URL | string, objectToReturnOn404: T, objectToReturnOnBrokenLink: T): Promise<T> {
+    let toReturn;
+    await fetch(url)
+        .then(response =>  {
+            if (response.status == 404) toReturn = objectToReturnOn404;
+        }).catch(err => {
+            toReturn = objectToReturnOnBrokenLink;
+        });
+    return toReturn as T;
 }
