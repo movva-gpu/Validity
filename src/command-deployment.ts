@@ -11,8 +11,7 @@ while (i < commandFilesAndSubFolders.length || i >= 100 || i <= -100) {
 	let maybeFolder = Bun.file(path.join(commandPath, commandFilesAndSubFolders[i]));
 	let folderContent: string[] = [];
 	let folderOrFileName = commandFilesAndSubFolders[i];
-
-	if (maybeFolder.type === 'application/octet-stream') {
+	if (maybeFolder.type === 'application/octet-stream' && !maybeFolder.name?.endsWith('subcommands')) {
 
 		folderContent = fs.readdirSync(path.join(commandPath, folderOrFileName));
 		for (let y = 0; y < folderContent.length; y++) {

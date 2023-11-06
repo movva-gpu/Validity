@@ -21,7 +21,7 @@ client.once(Events.ClientReady, c => {
         const folderOrFileName = commandFilesAndSubFolders[i];
         let folderContent: string[] = [];
 
-        if (maybeFolder.type === 'application/octet-stream') {
+        if (maybeFolder.type === 'application/octet-stream' && !maybeFolder.name?.endsWith('subcommands')) {
 
             folderContent = fs.readdirSync(path.join(commandPath, folderOrFileName));
             for (let y = 0; y < folderContent.length; y++) {
