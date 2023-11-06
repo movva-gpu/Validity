@@ -181,3 +181,6 @@ conf/*
 
 # VS-Code workspace
 *.code-workspace
+
+# Database files
+data/*

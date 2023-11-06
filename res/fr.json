@@ -5,6 +5,16 @@
             "subcommands": {
                 "help": {
                     "description": "Donne l'aide des sous commandes de la commande \"system\""
+                },
+                "create": {
+                    "description": "Crée un système!",
+                    "optionsDesc": {
+                        "name": "Le nom de votre système (max. 64 caractères)",
+                        "color": "La couleur de tous les messages liés au système (ex. #123456)",
+                        "description": "Dites-en plus sur votre système ! (max. 1024 caractères)",
+                        "avatarUrl": "Un lien vers une image qui représentera votre système (incompatible avec avatar-attachment)",
+                        "avatarAttachment": "Une image qui représentera votre système (incompatible avec avatar-url)"
+                    }
                 }
             }
         },
