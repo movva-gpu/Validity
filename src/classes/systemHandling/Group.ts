@@ -1,4 +1,4 @@
-import { generateToken } from '../../globalCommands'
+import { generateToken } from '../../globalMethods'
 
 export class Group {
     token: string;

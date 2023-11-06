@@ -1,30 +1,47 @@
-import { generateUUID } from '../../globalCommands'
+import { generateUID } from '../../globalMethods'
 import { Group } from './Group'
 import { Alter } from './Alter'
 
 export class System {
-    uuid: string;
+    uid: string;
     userIDs: Array<string>;
-    alters: Map<string, Alter>;
-    groups: Map<string, Group>;
     color: string;
     avatar: string;
     banner: string;
     name: string;
-    date: string;
+    createdAt: string;
     desc: string;
+    alters: Array<Alter>;
+    groups: Array<Group>;
 
-    constructor(uuid = generateUUID(), userIDs = new Array<string>(), alters = new Map<string, Alter>(),
-        groups = new Map<string, Group>(), color = '', avatar = '', banner = '', name = '', desc = '') {
-        this.uuid = uuid;
+    constructor(uid = generateUID(), userIDs = new Array<string>(), color = '', avatar = '', banner = '', name = '', desc = '') {
+        this.uid = uid;
         this.userIDs = userIDs;
-        this.alters = alters;
-        this.groups = groups;
         this.color = color;
         this.avatar = avatar;
         this.banner = banner;
         this.name = name;
-        this.date = (Date.now().toString as unknown as string);
         this.desc = desc;
+        let currentDate = new Date();
+        let dateTime = `${currentDate.getUTCHours()}:${currentDate.getUTCMinutes()}:${currentDate.getUTCSeconds()}` +
+            ` the ${currentDate.getUTCDate()}/${currentDate.getUTCMonth()}/${currentDate.getUTCFullYear()}`;
+        this.createdAt = dateTime;
+        this.alters = [];
+        this.groups = [];
+    }
+
+    toJson(): any {
+        return {
+            uid: this.uid,
+            userIDs: this.userIDs,
+            name: this.name,
+            desc: this.desc,
+            color: this.color,
+            avatar: this.avatar,
+            banner: this.banner,
+            alters: this.alters,
+            groups: this.groups,
+            createdAt: this.createdAt
+        }
     }
 }

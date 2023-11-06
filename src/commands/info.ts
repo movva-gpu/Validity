@@ -1,7 +1,7 @@
 import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js"
 import enUsJson from '../../res/en-us.json'
 import frJson from '../../res/fr.json'
-import { invokeHelpEmbed } from "../globalCommands"
+import { invokeHelpEmbed } from "../globalMethods"
 
 export const data = new SlashCommandBuilder()
     .setName('info')
