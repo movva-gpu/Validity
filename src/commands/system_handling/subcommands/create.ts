@@ -30,16 +30,16 @@ export const data = new SlashCommandSubcommandBuilder()
         .setDescription(enUsJson.commands.system.subcommands.create.optionsDesc.avatarAttachment)
         .setDescriptionLocalizations({ fr: frJson.commands.system.subcommands.create.optionsDesc.avatarAttachment }));
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<[InteractionReplyError, any]> {
+export async function execute(interaction: ChatInputCommandInteraction): Promise<[SystemCreateInteractionReplyError, any]> {
     const systemsData = require('../../../../data/data.json');
-    var interactionReplyErrors = [] as InteractionReplyError[];
+    var interactionReplyErrors = [] as SystemCreateInteractionReplyError[];
     var tooLongNumber = undefined;
     var avatarUrl: string | undefined;
 
     systemsData.systems.forEach((element: System) => {
         const userIDs = element.userIDs;
         for(let i = 0; i < userIDs.length; i++) {            
-            if (userIDs[i] == interaction.user.id) interactionReplyErrors.push(InteractionReplyError.AlreadyExists);
+            if (userIDs[i] == interaction.user.id) interactionReplyErrors.push(SystemCreateInteractionReplyError.AlreadyExists);
         }
     });
     const nameOption = stringOptionNormalize(interaction, 'name', true) as string;
@@ -49,30 +49,30 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     const descOption = stringOptionNormalize(interaction, 'description');
     
     if (nameOption.length > 64) {
-        interactionReplyErrors.push(InteractionReplyError.NameIsTooLong);
+        interactionReplyErrors.push(SystemCreateInteractionReplyError.NameIsTooLong);
         tooLongNumber = nameOption.length;
     }
 
     if (colorOption) {
-        if (!/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(colorOption)) interactionReplyErrors.push(InteractionReplyError.NotHexColor);
+        if (!/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(colorOption)) interactionReplyErrors.push(SystemCreateInteractionReplyError.NotHexColor);
     }
 
     if (descOption) {
         if (descOption.length > 1024) {
-            interactionReplyErrors.push(InteractionReplyError.DescIsTooLong);
+            interactionReplyErrors.push(SystemCreateInteractionReplyError.DescIsTooLong);
             tooLongNumber = descOption.length;
         }
     }
 
-    if (avatarUrlOption != null && avatarAttachmentOption != undefined) interactionReplyErrors.push(InteractionReplyError.BothUrlAndAttachment);
+    if (avatarUrlOption != null && avatarAttachmentOption != undefined) interactionReplyErrors.push(SystemCreateInteractionReplyError.BothUrlAndAttachment);
     if (avatarAttachmentOption) {
-        if (!avatarAttachmentOption.contentType || !avatarAttachmentOption.contentType?.startsWith('image/')) interactionReplyErrors.push(InteractionReplyError.AvatarAttachmentWrongType);
-            interactionReplyErrors.push(await getUrlResponse(avatarAttachmentOption.url, InteractionReplyError.AvatarAttachment404, InteractionReplyError.AvatarAttachmentIsBroken));
+        if (!avatarAttachmentOption.contentType || !avatarAttachmentOption.contentType?.startsWith('image/')) interactionReplyErrors.push(SystemCreateInteractionReplyError.AvatarAttachmentWrongType);
+            interactionReplyErrors.push(await getUrlResponse(avatarAttachmentOption.url, SystemCreateInteractionReplyError.AvatarAttachment404, SystemCreateInteractionReplyError.AvatarAttachmentIsBroken));
             avatarUrl = avatarAttachmentOption.url;
     }
 
     if (avatarUrlOption) {
-        interactionReplyErrors.push(await getUrlResponse(avatarUrlOption, InteractionReplyError.AvatarUrl404, InteractionReplyError.AvatarUrlIsBroken));
+        interactionReplyErrors.push(await getUrlResponse(avatarUrlOption, SystemCreateInteractionReplyError.AvatarUrl404, SystemCreateInteractionReplyError.AvatarUrlIsBroken));
         avatarUrl = avatarUrlOption;
     }
 
@@ -94,7 +94,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
 }
 
 
-export enum InteractionReplyError {
+export enum SystemCreateInteractionReplyError {
 
     NoError,
 

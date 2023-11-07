@@ -12,7 +12,7 @@ import {
 import * as embedDefaults from '../conf/embedDefaults.json'
 import { image } from '../conf/embedDefaults.json'
 import * as fs from 'fs'
-import { InteractionReplyError } from "./commands/system_handling/subcommands/create"
+import { SystemCreateInteractionReplyError } from "./commands/system_handling/subcommands/create"
 import { Writable } from 'stream';
 
 export function generateToken(length = 5): string {
@@ -195,10 +195,10 @@ export function stringOptionNormalize(interaction: ChatInputCommandInteraction, 
 
 
 
-export function saveDatabase(newDatabase: any): InteractionReplyError {
-    let replyError = InteractionReplyError.NoError;    
+export function saveDatabase(newDatabase: any): SystemCreateInteractionReplyError {
+    let replyError = SystemCreateInteractionReplyError.NoError;    
     fs.writeFile('data/data.json', newDatabase, function(err) {
-        if (err) { console.error(err); replyError = InteractionReplyError.SavingError; } else { console.log('Database was saved'); }
+        if (err) { console.error(err); replyError = SystemCreateInteractionReplyError.SavingError; } else { console.log('Database was saved'); }
     });
     return replyError;
 }
