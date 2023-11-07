@@ -23,7 +23,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                 break;
             case 'create':
                 const error = await create.execute(interaction);
-                switch (error) {
+                switch (error[0]) {
                     case create.InteractionReplyError.NoError:
                         interaction.reply('The system was successfuly created! :)');
                         break;
@@ -33,7 +33,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                         break;
                     
                     case create.InteractionReplyError.NameIsTooLong:
-                        interaction.reply('Error: Heyy! The maximum length for your system\'s name is 64 characters! >:0');
+                        interaction.reply(`Error: Heyy! The maximum length for your system's name is 64 characters! >:0 (${error[1]}/64)`);
                         break;
                         
                     case create.InteractionReplyError.NotHexColor:
@@ -41,7 +41,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                         break;
                         
                     case create.InteractionReplyError.DescIsTooLong:
-                        interaction.reply('Error: Wow! The description you provided is way to looong :0 The maximum size is of 1024 characters! ^^\'');
+                        interaction.reply(`Error: Wow! The description you provided is way to looong :0 The maximum size is of 1024 characters! ^^' (${error[1]}/1024)`);
                         break;
 
                     case create.InteractionReplyError.BothUrlAndAttachment:

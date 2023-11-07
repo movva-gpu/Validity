@@ -30,9 +30,10 @@ export const data = new SlashCommandSubcommandBuilder()
         .setDescription(enUsJson.commands.system.subcommands.create.optionsDesc.avatarAttachment)
         .setDescriptionLocalizations({ fr: frJson.commands.system.subcommands.create.optionsDesc.avatarAttachment }));
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<InteractionReplyError> {
+export async function execute(interaction: ChatInputCommandInteraction): Promise<[InteractionReplyError, any]> {
     const systemsData = require('../../../../data/data.json');
     var interactionReplyErrors = [] as InteractionReplyError[];
+    var tooLongNumber = undefined;
     var avatarUrl: string | undefined;
 
     systemsData.systems.forEach((element: System) => {
@@ -47,14 +48,20 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     const avatarAttachmentOption = interaction.options.getAttachment('avatar-attachment', false);
     const descOption = stringOptionNormalize(interaction, 'description');
     
-    if (nameOption.length > 64) interactionReplyErrors.push(InteractionReplyError.NameIsTooLong)
+    if (nameOption.length > 64) {
+        interactionReplyErrors.push(InteractionReplyError.NameIsTooLong);
+        tooLongNumber = nameOption.length;
+    }
 
     if (colorOption) {
         if (!/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(colorOption)) interactionReplyErrors.push(InteractionReplyError.NotHexColor);
     }
 
     if (descOption) {
-        if (descOption.length > 1024) interactionReplyErrors.push(InteractionReplyError.DescIsTooLong);
+        if (descOption.length > 1024) {
+            interactionReplyErrors.push(InteractionReplyError.DescIsTooLong);
+            tooLongNumber = descOption.length;
+        }
     }
 
     if (avatarUrlOption != null && avatarAttachmentOption != undefined) interactionReplyErrors.push(InteractionReplyError.BothUrlAndAttachment);
@@ -83,7 +90,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
         interactionReplyErrors.push(savingResult);
     }
     console.log(interactionReplyErrors);
-    return interactionReplyErrors[0];
+    return [interactionReplyErrors[0], tooLongNumber];
 }
 
 
