@@ -9,7 +9,6 @@ import {
     InteractionReplyOptions
 } from "discord.js" // TODO: Maybe make shorter aliases (see answers on DiscordJS server)
 
-import { InitialMainButton } from "./enums"
 import * as embedDefaults from '../conf/embedDefaults.json'
 import { image } from '../conf/embedDefaults.json'
 import * as fs from 'fs'
@@ -70,7 +69,7 @@ export function createButton(emoji: ComponentEmojiResolvable, style: ButtonStyle
         .setLabel(label);
 }
 
-export function invokeHelpEmbed(initialMainButton: InitialMainButton,interaction: ChatInputCommandInteraction): void {
+export function invokeHelpEmbed(initialMainButton: InitialHelpEmbedButton,interaction: ChatInputCommandInteraction): void {
     const informationsEmbed = createFullEmbed(
         'Informations',
         'Hello ^^! I\'m Validity and I\'m a Discord(TM) bot designed for plural systems/teams/communities/etc,' +
@@ -181,10 +180,20 @@ export function invokeHelpEmbed(initialMainButton: InitialMainButton,interaction
     });
 }
 
+export enum InitialHelpEmbedButton {
+    Information = 0,
+
+    SystemSubCommands = 1
+}
+
+
+
 export function stringOptionNormalize(interaction: ChatInputCommandInteraction, optionName: string, required = false): string | undefined {
     if (interaction.options.getString(optionName, required) == null) return undefined;
     return interaction.options.getString(optionName, required) as string;
 }
+
+
 
 export function saveDatabase(newDatabase: any): InteractionReplyError {
     let replyError = InteractionReplyError.NoError;    
@@ -193,6 +202,7 @@ export function saveDatabase(newDatabase: any): InteractionReplyError {
     });
     return replyError;
 }
+
 
 
 export async function getUrlResponse<T>(url: URL | string, objectToReturnOn404: T, objectToReturnOnBrokenLink: T): Promise<T> {

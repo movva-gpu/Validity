@@ -2,7 +2,7 @@ import { SlashCommandBuilder, ChatInputCommandInteraction, SlashCommandSubcomman
 // TODO : Add a way to find lang files and use them directly without importing them all to the code
 import enUsJson from '../../../res/en-us.json'
 import frJson from '../../../res/fr.json'
-import { invokeHelpEmbed } from '../../globalMethods'
+import { InitialMainButton, invokeHelpEmbed } from '../../globalMethods'
 import * as create from './subcommands/create'
 
 export const data = new SlashCommandBuilder()
@@ -19,7 +19,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     if (subCommand != '') {
         switch (subCommand) {
             case 'help':
-                    invokeHelpEmbed(1, interaction);
+                    invokeHelpEmbed(InitialMainButton.SystemSubCommands, interaction);
                 break;
             case 'create':
                 const error = await create.execute(interaction);
