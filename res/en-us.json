@@ -8,13 +8,15 @@
                 },
                 "create": {
                     "description": "Create a system",
-                    "optionsDesc": {
+                    "options": {
                         "name": "The name of your system (max. 64 characters)",
                         "color": "The color of all the embeds related to the system (i.e. #123456)",
                         "description": "Tell people more about your system! (max. 1024 characters)",
-                        "avatarUrl": "A URL to an image that will represent your system (incompatible with avatar-attachment)",
-                        "avatarAttachment": "An image that will represent your system (incompatible with avatar-url)"
+                        "avatar": "A URL to an image that will represent your system"
                     }
+                },
+                "delete": {
+                    "description": "Delete your system!"
                 }
             }
         },

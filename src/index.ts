@@ -3,8 +3,13 @@ import { ValidityClient } from './classes/ValidityClient'
 import * as fs from 'fs'
 import * as path from 'path'
 import { token, avatarUrl } from '../conf/clientConf.json'
+import { getLangsData } from './globalMethods'
+import { deployCommands } from './command-deployment'
 
 const client = new ValidityClient({ intents: [GatewayIntentBits.Guilds] });
+
+export const langs = getLangsData(true);
+// console.log(langs);
 
 
 
@@ -46,6 +51,8 @@ client.once(Events.ClientReady, c => {
         }
     }
     console.log('[INFO] I have all these commands:', commandFiles);
+
+    // deployCommands();
 });
 
 
@@ -74,3 +81,27 @@ client.on(Events.InteractionCreate, async interaction => {
 
 
 client.login(token);
+
+
+
+export interface LangData {
+    [locale: string]: {
+        commands: {
+            [command: string]: {
+                description: string;
+                subcommands?: {
+                    [subcommand: string]: {
+                        description: string;
+                        options?: {
+                            [option: string]: string;
+                        }
+                    }
+                }
+                response?: string;
+                responses?: {
+                    [response: string]: string
+                }
+            }
+        }
+    }
+}

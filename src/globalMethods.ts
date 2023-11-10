@@ -6,14 +6,19 @@ import {
     ColorResolvable,
     ComponentEmojiResolvable,
     EmbedBuilder,
-    InteractionReplyOptions
+    InteractionReplyOptions,
+    User,
+    Locale
 } from "discord.js" // TODO: Maybe make shorter aliases (see answers on DiscordJS server)
 
 import * as embedDefaults from '../conf/embedDefaults.json'
 import { image } from '../conf/embedDefaults.json'
 import * as fs from 'fs'
-import { SystemCreateInteractionReplyError } from "./commands/system_handling/subcommands/create"
-import { Writable } from 'stream';
+import { SystemsDataType } from "./commands/system_handling/main"
+import * as path from 'path'
+import { LangData } from "."
+
+const systemsData = require('../data/data.json') as SystemsDataType;
 
 export function generateToken(length = 5): string {
     const authorizedChars = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -30,6 +35,11 @@ export function generateUID(UIDLength = 6, tokensLength = 5): string {
     for (let i = 0; i < UIDLength - 1; i++) {
         uid += generateToken(tokensLength) + '-';
     }
+
+    systemsData.systems.forEach(element => {
+            if (element.uid == uid) uid = generateUID(UIDLength, tokensLength);
+        });
+
     return uid += generateToken(tokensLength);
 }
 
@@ -187,31 +197,81 @@ export enum InitialHelpEmbedButton {
 }
 
 
-
-export function stringOptionNormalize(interaction: ChatInputCommandInteraction, optionName: string, required = false): string | undefined {
+export function stringOptionNormalize(interaction: ChatInputCommandInteraction, optionName: string, required: true): string
+export function stringOptionNormalize(interaction: ChatInputCommandInteraction, optionName: string): string | undefined
+export function stringOptionNormalize(interaction: ChatInputCommandInteraction, optionName: string, required?: boolean): string | undefined {
     if (interaction.options.getString(optionName, required) == null) return undefined;
     return interaction.options.getString(optionName, required) as string;
 }
 
 
 
-export function saveDatabase(newDatabase: any): SystemCreateInteractionReplyError {
-    let replyError = SystemCreateInteractionReplyError.NoError;    
-    fs.writeFile('data/data.json', newDatabase, function(err) {
-        if (err) { console.error(err); replyError = SystemCreateInteractionReplyError.SavingError; } else { console.log('Database was saved'); }
+export function saveDatabase<T>(newDatabase: SystemsDataType, objectToReturnOnError: T, objectToReturnOnSuccess: T): T {
+    let replyError = objectToReturnOnSuccess;
+    fs.writeFile('data/data.json', JSON.stringify(newDatabase), function(err) {
+        if (err) { console.error(err); replyError = objectToReturnOnError; } else { console.log('Database was saved'); }
     });
     return replyError;
 }
 
+export function userHasSystem(user: User, systemsData: SystemsDataType): boolean {
+    let result = false;
+    systemsData.systems.forEach((element) => {
+        const userIDs = element.userIDs;
+        for(let i = 0; i < userIDs.length; i++) {
+            if (userIDs[i] == user.id) result = true;
+        }
+    });
+    return result;
+}
+
+export function getUserSystemIndex(user: User, systemsData: SystemsDataType): number {
+    let result = -1;
+    systemsData.systems.forEach((element, index) => {
+        const userIDs = element.userIDs;
+        for(let i = 0; i < userIDs.length; i++) {
+            if (userIDs[i] == user.id) result = index;
+        }
+    });
+    return result;
+}
 
 
-export async function getUrlResponse<T>(url: URL | string, objectToReturnOn404: T, objectToReturnOnBrokenLink: T): Promise<T> {
-    let toReturn;
+
+export async function getUrlResponse<T>(url: URL | string, toReturnOn404: T, toReturnOnBroken: T, toReturnOnWrongType: T): Promise<T | undefined> {
+    let toReturn = undefined;
     await fetch(url)
-        .then(response =>  {
-            if (response.status == 404) toReturn = objectToReturnOn404;
-        }).catch(err => {
-            toReturn = objectToReturnOnBrokenLink;
+        .then(response => {
+            response.headers.forEach((element, key) => {
+                if (key === 'content-type' && !element.startsWith('image')) toReturn = toReturnOnWrongType; return;
+            });
+            if (response.status == 404) toReturn = toReturnOn404;
+        }).catch(() => {
+            toReturn = toReturnOnBroken;
         });
-    return toReturn as T;
+    return toReturn;
+}
+
+
+
+export function getLangsData(log: boolean = false): LangData {
+    const absoluteLangPath = path.join(import.meta.dir, '..', 'res/');
+    const notFound: string[] = [];
+    const langsData: LangData = {};
+
+    for (const locale in Locale) {
+        try {
+            let localeId = Locale[locale as keyof typeof Locale];
+            let langFilePath = path.join(absoluteLangPath, `${localeId}.json`)
+            langsData[localeId] = JSON.parse(fs.readFileSync(langFilePath, 'utf-8'));
+        } catch (error) {
+            notFound.push(locale);
+        }
+    }
+
+    if (log) {
+        console.log('[WARNING]', notFound, 'language(s) not found!');
+    }
+
+    return langsData;
 }
