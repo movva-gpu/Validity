@@ -37,7 +37,7 @@ client.once(Events.ClientReady, c => {
         }
 
         i++;
-        commandFilesAndSubFolders = commandFilesAndSubFolders.concat(folderContent);        
+        commandFilesAndSubFolders = commandFilesAndSubFolders.concat(folderContent);
     }
     const commandFiles = commandFilesAndSubFolders.filter((file: string) => file.endsWith('.cjs') || file.endsWith('.ts'));
 
