@@ -1,11 +1,7 @@
 <div align="center">
 
 
-<div style="width: 256px; image-rendering: pixelated;">
-
-
-![Logo](https://i.imgur.com/KeYGWJc.png)
-</div>
+<img src=https://i.imgur.com/KeYGWJc.png alt=logo width=256 height=256 style=image-rendering:pixelated;>
 
 # Validity:RE
 </div>
