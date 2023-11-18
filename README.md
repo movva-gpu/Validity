@@ -2,10 +2,17 @@
 <div style="width: 256px; image-rendering: pixelated;">
 
 
+<div style="width: 256px; image-rendering: pixelated;">
+
+
 ![Logo](https://i.imgur.com/KeYGWJc.png)
+</div>
+
 </div>
 # Validity:RE
 </div>
+
+
 [![Repobeats analytics image](https://repobeats.axiom.co/api/embed/f3f3517b8146ae728d6bf0f925b3f1bf3aa43dc4.svg)](https://github.com/movva-gpu/ValidityRE/pulse)
   
 ## Summary
