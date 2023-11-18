@@ -1,5 +1,4 @@
 <div align="center">
-<div style="width: 256px; image-rendering: pixelated;">
 
 
 <div style="width: 256px; image-rendering: pixelated;">
@@ -8,7 +7,6 @@
 ![Logo](https://i.imgur.com/KeYGWJc.png)
 </div>
 
-</div>
 # Validity:RE
 </div>
 
