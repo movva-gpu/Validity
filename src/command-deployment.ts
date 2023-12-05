@@ -8,7 +8,6 @@ export function deployCommands(): void {
     let i = 0;
     const commandPath = path.join(import.meta.dir, 'commands');
     let commandFilesAndSubFolders = fs.readdirSync(commandPath);
-    console.log(commandFilesAndSubFolders);    
     while (i < commandFilesAndSubFolders.length || i >= 100 || i <= -100) {
         let maybeFolder = Bun.file(path.join(commandPath, commandFilesAndSubFolders[i]));
         let folderContent: string[] = [];
@@ -25,7 +24,6 @@ export function deployCommands(): void {
 
         i++;
         commandFilesAndSubFolders = commandFilesAndSubFolders.concat(folderContent);
-        console.log(commandFilesAndSubFolders);
         
     }
 
@@ -38,7 +36,7 @@ export function deployCommands(): void {
         if ('data' in command && 'execute' in command) {
             commands.push(command.data.toJSON());
         } else {
-            console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+            console.warn(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
         }
     }
 
@@ -46,13 +44,13 @@ export function deployCommands(): void {
 
     (async () => {
         try {
-            console.log(`Started refreshing ${commands.length} application (/) commands.`, commands);
+            console.info(`[INFO] Started refreshing ${commands.length} application (/) commands.`);
 
             const data = await rest.put(
                 Routes.applicationCommands(clientId),
                 { body: commands },
             );
-            console.log(`Successfully reloaded ${(data as RESTPutAPIApplicationCommandsResult).length} application (/) commands.`);
+            console.info(`[INFO] Successfully reloaded ${(data as RESTPutAPIApplicationCommandsResult).length} application (/) commands.`);
         } catch (error) {
             console.error(error);
         }

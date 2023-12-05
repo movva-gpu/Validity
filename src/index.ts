@@ -6,15 +6,22 @@ import { token, avatarUrl } from '../conf/clientConf.json'
 import { getLangsData } from './globalMethods'
 import { deployCommands } from './command-deployment'
 
+const parrotSay = require('parrotsay-api') // More about it here : https://github.com/matheuss/parrotsay-api
+
+
+
 const client = new ValidityClient({ intents: [GatewayIntentBits.Guilds] });
 
 export const langs = getLangsData(true);
-// console.log(langs);
 
 
 
-client.once(Events.ClientReady, c => {
-    console.log('Hello discord.js!\nI\'m logged in as ' + client.user?.tag + '!');
+client.once(Events.ClientReady, async c => {
+    console.log('\n\n'); // To center the *parrot*
+    
+    await parrotSay('\n   Hello discord.js! I\'m logged in as ' + client.user?.tag + '!   \n')
+        .then(console.info)
+        .catch(console.error);
     client.user?.setActivity({ name: 'Trying to understand iself.', type: ActivityType.Playing, state: 'online' });
 //    client.user?.setAvatar(avatarUrl);
 
@@ -47,12 +54,13 @@ client.once(Events.ClientReady, c => {
         if ('data' in command && 'execute' in command) {
             client.commands.set(command.data.name, command);
         } else {
-            console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+            console.warn(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
         }
     }
-    console.log('[INFO] I have all these commands:', commandFiles);
+    console.info('[INFO] I have all these commands:', commandFiles);
 
-    // deployCommands();
+    if (process.argv.filter((item) => item === '--deployCommands').length != 0) deployCommands();
+    
 });
 
 
@@ -94,14 +102,25 @@ export interface LangData {
                         description: string;
                         options?: {
                             [option: string]: string;
+                        },
+                        response?: string,
+                        responses?: {
+                            [response: string]: string;
+                        },
+                        labels?: {
+                            [label: string]: string;
                         }
                     }
-                }
-                response?: string;
+                },
+                response?: string,
                 responses?: {
-                    [response: string]: string
+                    [response: string]: string,
+                },
+                labels?: {
+                    [label: string]: string;
                 }
             }
-        }
+        },
+        [key: string]: any,
     }
 }

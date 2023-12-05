@@ -20,6 +20,7 @@
 ## Summary
 1.  [About](#about)
 2.  [Installation](#install)
+3.  [Command deployment](#deploy)
 
 <div id=about>
 
@@ -43,4 +44,14 @@ bun run .
 ```
 
 This project was created using `bun init` in bun v1.0.7. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+</div>
+
+<div id=deploy>
+
+### Command deployment
+To deploy commands:
+
+```bash
+bun run . --deployCommands
+```
 </div>
