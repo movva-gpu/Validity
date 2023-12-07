@@ -34,7 +34,7 @@
                         "modalTitle": "THIS CANNOT BE UNDONE, ARE YOU SURE?"
                     },
                     "responses": {
-                        "NoError": "The system was successfuly created! :) :white_check_mark:",
+                        "NoError": "The system was successfuly deleted! :white_check_mark:",
                         "UserHasNoSys":"Error: You seem to not have a system :/ :x:\nUse /system create to create one! :p",
                         "SavingError": "Error: Error while saving your file to the database. :x:\nPlease [report the issue on Github](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
                     }

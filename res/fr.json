@@ -26,15 +26,17 @@
                 },
                 "delete": {
                     "description": "Supprime votre système!",
-                    "responses": {
-
-                    },
                     "labels": {
                         "textInput": {
                             "title": "Rentrez le nom du système pour le supprimer",
                             "placeholder": "Nom du système"
                         },
                         "modalTitle": "ÊTES VOUS SÛRS DE VOULOIR CONTINUER ?"
+                    },
+                    "responses": {
+                        "NoError": "Votre système a été supprimé ! :white_check_mark:",
+                        "UserHasNoSys":"Erreur : On dirait que tu n'as pas de système :/ :x:\nUtilise /system create afin d'en créer un ! :p",
+                        "SavingError": "Erreur : Erreur lors de la sauvegarde dans la base de donnée. :x:\nFaites un [rapport de bug sur Github](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
                     }
                 }
             }

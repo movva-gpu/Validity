@@ -36,7 +36,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                 break;
             case 'create':
                 var createResponses = langs['en-US'].commands.system.subcommands?.create.responses as any;
-                if (langs[interaction.locale]?.createResponses) createResponses = langs[interaction.locale].commands.system.subcommands?.create.responses as any;
+                if (langs[interaction.locale]?.commands.system.subcommands?.create.responses) createResponses = langs[interaction.locale].commands.system.subcommands?.create.responses as any;
                 await create.execute(interaction).then(error => {
                     var errorString: string = create.SystemCreateInteractionReplyError[error];
                     interaction.reply(createResponses[errorString]);
@@ -45,10 +45,10 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                 break;
             case 'delete':
                 var deleteResponses = langs['en-US'].commands.system.subcommands?.delete.responses as any;
-                if (langs[interaction.locale]?.deleteResponses) deleteResponses = langs[interaction.locale].commands.system.subcommands?.create.responses as any
+                if (langs[interaction.locale]?.commands.system.subcommands?.delete.responses) deleteResponses = langs[interaction.locale].commands.system.subcommands?.delete.responses as any
                 await deleteCommand.execute(interaction).then(error => {
                     var errorString: string = deleteCommand.SystemDeleteInteractionReplyError[error];
-                    interaction.reply(deleteResponses[errorString]);
+                    interaction.channel?.send(deleteResponses[errorString]);
                     console.error(error);
                 });
                 break;
