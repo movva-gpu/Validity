@@ -19,13 +19,25 @@
 
 ## Summary
 1.  [About](#about)
-2.  [Installation](#install)
-3.  [Command deployment](#deploy)
+2.  [Commands](#commands)
+3.  [Installation](#install)
+4.  [Command deployment](#deploy)
 
 <div id=about>
 
 ### About
-A discord bot made to manage plural systems and alters like pluralkit. I make it mostly to learn TS and more.
+It serves the exact same use as [PluralKit](https://pluralkit.me), depending on a defined tag, called a proxy, a message will be replaced by a fake account, with the name and the avatar defined by the member. That's at least what's planned since it's only WIP at the moment.
+</div>
+
+<div id=commands>
+
+### Commands
+*  `/info ` gives information about the bot and plurality.
+*  `/ping ` gives the ping of the bot. Only for development purposes.
+*  `/system help ` gives all the system commands.
+*  `/system create ` creates a system.
+*  `/system delete ` removes your system.
+* . . . more are to come.
 </div>
 
 <div id=install>
