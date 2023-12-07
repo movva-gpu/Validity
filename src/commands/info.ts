@@ -1,12 +1,14 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js"
-import enUsJson from '../../res/en-us.json'
-import frJson from '../../res/fr.json'
+import { ChatInputCommandInteraction, Locale, SlashCommandBuilder } from "discord.js"
 import { InitialHelpEmbedButton, invokeHelpEmbed } from "../globalMethods"
+import { langs } from "..";
 
 export const data = new SlashCommandBuilder()
     .setName('info')
-    .setDescription(enUsJson.commands.info.description)
-    .setDescriptionLocalizations({ fr: frJson.commands.info.description });
+    .setDescription(langs['en-US'].commands.info.description);
+
+    for (const locale in langs) {
+        data.setDescriptionLocalization(locale as Locale, langs[locale].commands.info.description as string);
+    }
 
 export function execute(interaction: ChatInputCommandInteraction): void {
     invokeHelpEmbed(InitialHelpEmbedButton.Information, interaction);

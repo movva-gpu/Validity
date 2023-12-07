@@ -13,15 +13,69 @@
                         "color": "La couleur de tous les messages liés au système (ex. #123456)",
                         "description": "Dites-en plus sur votre système ! (max. 1024 caractères)",
                         "avatar": "Un lien vers une image qui représentera votre système"
+                    },
+                    "responses": {
+                        "NoError": "Le système a bien été créé :) :white_check_mark:",
+                        "AlreadyExists": "Erreur : On dirait que tu as déjà un système :/ :x:",
+                        "NotHexColor": "Erreur : Couleur invalide! Elle doit forcément commencer par un `#` ! :3 :x:",
+                        "AvatarUrl404": "Erreur 404: Je ne peux pas accéder à l'image que tu m'as donné ! Vous avez peut-être fait une faute d'orthographe ? :x:",
+                        "AvatarUrlIsBroken": "Erreur : Le lien donné est brisé. Vous avez peut-être fait une faute d'orthographe ? :x:",
+                        "AvatarWrongType": "Erreur : Le lien ne redirige pas vers une image ! :x:",
+                        "SavingError": "Erreur : Erreur lors de la sauvegarde dans la base de donnée. :x:\nFaites un [rapport de bug sur Github](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
                     }
                 },
                 "delete": {
-                    "description": "Supprime votre système!"
+                    "description": "Supprime votre système!",
+                    "responses": {
+
+                    },
+                    "labels": {
+                        "textInput": {
+                            "title": "Rentrez le nom du système pour le supprimer",
+                            "placeholder": "Nom du système"
+                        },
+                        "modalTitle": "ÊTES VOUS SÛRS DE VOULOIR CONTINUER ?"
+                    }
                 }
             }
         },
         "info": {
             "description": "Informations à propos du bot!"
+        }
+    },
+    "helpTexts": {
+        "info": {
+            "title": "Informations :information_source:",
+            "description": "Salut ^^ ! Je m'appelle Validity et je suis un bot Discord(TM) créé pour les systèmes / équipes / communautés / etc multiples, permettant de créé un système, des alters, des groupes, et de s'en servir comme pseudo-utilisateur !",
+            "fields": [
+                {
+                    "name": "Qu'est-ce qu'un système ?",
+                    "value": "Selon [Pluralpedia](https://pluralpedia.org/w/Plurality), un système est un groupe de personnes et d'entités (souvent appelés alters) qui partage un seul corps physique multiple."
+                },
+                {
+                    "name": "À quoi sert ce bot ?",
+                    "value": "Il sert à faire exactement les mêmes choses que [PluralKit](https://pluralkit.me). Dépendant d'un certain tag appelé \"proxy\", vous pourrez utiliser les alters du système pour discuter comme un faux compte discord en soit, avec l'avatar et le nom d'affichage définit."
+                }
+            ],
+            "buttonLabel": "Informations à propos du bot"
+        },
+        "systemSubcommands": {
+            "title": "Sous-commandes /system",
+            "fields": [
+                {
+                    "name": "Sous commande d'aide :question:",
+                    "value": "`/system help`\nCette boîte d'aide."
+                },
+                {
+                    "name": "Sous commande de création de système :white_check_mark:",
+                    "value": "`/system create [name] <desc> <color> <avatar>`\nCette commande créée votre système ! (les arguments entre <> sont optionnels)"
+                },
+                {
+                    "name": "Sous commande de supression de système :x:",
+                    "value": "`/system delete`\nSupprime votre système. :warning: Ne peut être annulé ! :warning:"
+                }
+            ],
+            "buttonLabel": "Sous-commandes /system"
         }
     }
 }

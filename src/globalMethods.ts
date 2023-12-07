@@ -9,14 +9,14 @@ import {
     InteractionReplyOptions,
     User,
     Locale
-} from "discord.js" // TODO: Maybe make shorter aliases (see answers on DiscordJS server)
+} from "discord.js"
 
 import * as embedDefaults from '../conf/embedDefaults.json'
 import { image } from '../conf/embedDefaults.json'
 import * as fs from 'fs'
 import { SystemsDataType } from "./commands/system_handling/main"
 import * as path from 'path'
-import { LangData } from "."
+import { LangData, langs } from "."
 
 const systemsData = require('../data/data.json') as SystemsDataType;
 
@@ -55,6 +55,7 @@ export function createFullEmbed(title: string, description: string | null = null
         .setURL(url)
         .setDescription(description)
         .setImage(image)
+        .setTimestamp()
         .setFooter({ text: footer, iconURL: embedDefaults.image });
 }
 
@@ -79,30 +80,21 @@ export function createButton(emoji: ComponentEmojiResolvable, style: ButtonStyle
         .setLabel(label);
 }
 
-export function invokeHelpEmbed(initialMainButton: InitialHelpEmbedButton,interaction: ChatInputCommandInteraction): void {
+export function invokeHelpEmbed(initialMainButton: InitialHelpEmbedButton, interaction: ChatInputCommandInteraction): void {
+    var helpTexts = langs['en-US'].helpTexts;
+    if (langs[interaction.locale]?.helpTexts) helpTexts = langs[interaction.locale].helpTexts
     const informationsEmbed = createFullEmbed(
-        'Informations',
-        'Hello ^^! I\'m Validity and I\'m a Discord(TM) bot designed for plural systems/teams/communities/etc,' +
-        'allowing you to register a system, members of this system, groups, etc.', image)
-            .addFields({
-                'name': 'What are "plural systems"?',
-                'value': 'According to [Pluralpedia](https://pluralpedia.org/w/Plurality),' +
-                'a system is the collection of people and entities, often called headmates or alters,' +
-                'that share a single physical plural body.'
-            },
-            {
-                'name': 'What is this bot for?',
-                'value': 'It serves the exact same use as [PluralKit](https://pluralkit.me),' +
-                'depending on a defined tag, called a proxy, a message will be replaced by a fake account,' +
-                'with the name and the avatar defined by the member.'
-            });
+        helpTexts.info.title,
+        helpTexts.info.description, image)
+            .addFields(helpTexts.info.fields[0], helpTexts.info.fields[1]);
+
     const systemSubCommandsEmbed = createEmbed(
-        'System subcommands').addFields(
-            { 'name': 'Help subcommand', 'value': '`/system help`\nIt give this embed!' });
+        helpTexts.systemSubcommands.title)
+        .addFields(helpTexts.systemSubcommands.fields[0], helpTexts.systemSubcommands.fields[1], helpTexts.systemSubcommands.fields[2]);
     
-    const informationsButton = createButton('\u2139', ButtonStyle.Secondary, 'Bot informations')
+    const informationsButton = createButton('\u2139', ButtonStyle.Secondary, helpTexts.info.buttonLabel)
         .setCustomId('info');
-    const systemSubCommandsButton = createButton('📜', ButtonStyle.Secondary, 'System subcommands')
+    const systemSubCommandsButton = createButton('📜', ButtonStyle.Secondary, helpTexts.systemSubcommands.buttonLabel)
         .setCustomId('syssubcom');
     
     switch (initialMainButton) {
@@ -262,7 +254,7 @@ export function getLangsData(log: boolean = false): LangData {
     for (const locale in Locale) {
         try {
             let localeId = Locale[locale as keyof typeof Locale];
-            let langFilePath = path.join(absoluteLangPath, `${localeId}.json`)
+            let langFilePath = path.join(absoluteLangPath, `${localeId}.json`);
             langsData[localeId] = JSON.parse(fs.readFileSync(langFilePath, 'utf-8'));
         } catch (error) {
             notFound.push(locale);

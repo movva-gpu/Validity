@@ -13,15 +13,71 @@
                         "color": "The color of all the embeds related to the system (i.e. #123456)",
                         "description": "Tell people more about your system! (max. 1024 characters)",
                         "avatar": "A URL to an image that will represent your system"
+                    },
+                    "responses": {
+                        "NoError": "The system was successfuly created! :) :white_check_mark:",
+                        "AlreadyExists": "Error: It seems you already have a system :/ :x:",
+                        "NotHexColor": "Error: The color must begin with `#`! :3 :x:",
+                        "AvatarUrl404": "Error 404: I can't access the image your provided me! Maybe you made a typo? :x:",
+                        "AvatarUrlIsBroken": "Error: You link seems to be unusable! Maybe you made a typo? :x:",
+                        "AvatarWrongType": "Error: The link you gave isn't an image! :x:",
+                        "SavingError": "Error: Error while saving your file to the database. :x:\nPlease [report the issue on Github](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
                     }
                 },
                 "delete": {
-                    "description": "Delete your system!"
+                    "description": "Delete your system!",
+                    "labels": {
+                        "textInput": {
+                            "title": "Input your system's name to delete your system",
+                            "placeholder": "System name"
+                        },
+                        "modalTitle": "THIS CANNOT BE UNDONE, ARE YOU SURE?"
+                    },
+                    "responses": {
+                        "NoError": "The system was successfuly created! :) :white_check_mark:",
+                        "UserHasNoSys":"Error: You seem to not have a system :/ :x:\nUse /system create to create one! :p",
+                        "SavingError": "Error: Error while saving your file to the database. :x:\nPlease [report the issue on Github](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
+                    }
                 }
             }
         },
         "info": {
             "description": "Informations about the bot!"
+        }
+    },
+    "helpTexts": {
+        "info": {
+            "title": "Informations :information_source:",
+            "description": "Hello ^^! I'm Validity and I'm a Discord(TM) bot designed for plural systems/teams/communities/etc, allowing you to register a system, members of this system, groups, etc.",
+            "fields": [
+                {
+                    "name": "What are \"plural systems\"?",
+                    "value": "According to [Pluralpedia](https://pluralpedia.org/w/Plurality), a system is the collection of people and entities, often called headmates or alters, that share a single physical plural body."
+                },
+                {
+                    "name": "What is this bot for?",
+                    "value": "It serves the exact same use as [PluralKit](https://pluralkit.me), depending on a defined tag, called a proxy, a message will be replaced by a fake account, with the name and the avatar defined by the member."
+                }
+            ],
+            "buttonLabel": "About the bot"
+        },
+        "systemSubcommands": {
+            "title": "/system subcommands",
+            "fields": [
+                {
+                    "name": "Help subcommand :question:",
+                    "value": "`/system help`\nThis help embed."
+                },
+                {
+                    "name": "System creation subcommand :white_check_mark:",
+                    "value": "`/system create [name] <desc> <color> <avatar>`\nCreates your system (the arguments between <> are optionnals)"
+                },
+                {
+                    "name": "System deletion subcommand :x:",
+                    "value": "`/system delete`\nDeletes your system. :warning: That cannot be undone :warning:"
+                }
+            ],
+            "buttonLabel": "/system subcommands"
         }
     }
 }
