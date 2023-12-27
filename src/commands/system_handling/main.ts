@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, Locale } from 'discord.js'
+import { SlashCommandBuilder, ChatInputCommandInteraction, Locale, SlashCommandSubcommandBuilder } from 'discord.js'
 
 import { InitialHelpEmbedButton, invokeHelpEmbed } from '../../globalMethods'
 import * as create from './subcommands/create'
@@ -20,7 +20,7 @@ export const data = new SlashCommandBuilder()
         }
         return subcommand
             .setName('help')
-            .setDescription(langs['en-US'].commands.system.subcommands?.help.description as string)
+            .setDescription(langs['en-US'].commands.system.subcommands?.help.description as string);
     })
     .addSubcommand(create.data)
     .addSubcommand(deleteCommand.data);
@@ -37,6 +37,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
             case 'help':
                 invokeHelpEmbed(InitialHelpEmbedButton.SystemSubCommands, interaction);
                 break;
+            case 'c':
             case 'create':
                 var createResponses = langs['en-US'].commands.system.subcommands?.create.responses as any;
 
@@ -48,6 +49,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
                     console.error(error);
                 });
                 break;
+            case 'd':
             case 'delete':
                 var deleteResponses = langs['en-US'].commands.system.subcommands?.delete.responses as any;
 
