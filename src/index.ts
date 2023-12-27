@@ -1,13 +1,13 @@
 import { ActivityType, Events, GatewayIntentBits } from 'discord.js'
-import { ValidityClient } from './classes/ValidityClient'
 import * as fs from 'fs'
 import * as path from 'path'
-import { token, avatarUrl } from '../conf/clientConf.json'
+
+import { ValidityClient } from './classes/ValidityClient'
+import { token } from '../conf/clientConf.json'
 import { getLangsData } from './globalMethods'
 import { deployCommands } from './command-deployment'
 
-const parrotSay = require('parrotsay-api') // More about it here : https://github.com/matheuss/parrotsay-api
-
+const parrotSay = require('parrotsay-api'); // More about it here : https://github.com/matheuss/parrotsay-api
 
 
 const client = new ValidityClient({ intents: [GatewayIntentBits.Guilds] });
@@ -15,15 +15,14 @@ const client = new ValidityClient({ intents: [GatewayIntentBits.Guilds] });
 export const langs = getLangsData(true);
 
 
-
 client.once(Events.ClientReady, async c => {
     console.log('\n\n'); // To center the *parrot*
-    
+
     await parrotSay('\n   Hello discord.js! I\'m logged in as ' + client.user?.tag + '!   \n')
         .then(console.info)
         .catch(console.error);
-    client.user?.setActivity({ name: 'Trying to understand iself.', type: ActivityType.Playing, state: 'online' });
-//    client.user?.setAvatar(avatarUrl);
+    client.user?.setActivity({ name: 'Trying to understand itself.', type: ActivityType.Playing, state: 'online' });
+//  client.user?.setAvatar(avatarUrl);
 
     let i = 0;
     const commandPath = path.join(import.meta.dir, 'commands');
@@ -60,67 +59,50 @@ client.once(Events.ClientReady, async c => {
     console.info('[INFO] I have all these commands:', commandFiles);
 
     if (process.argv.filter((item) => item === '--deployCommands').length != 0) deployCommands();
-    
 });
-
 
 
 client.on(Events.InteractionCreate, async interaction => {
     if (!interaction.isChatInputCommand()) return;
     console.log('[INFO] Slash Command received!');
-    
-    
+
+
     const command = (interaction.client as ValidityClient).commands.get(interaction.commandName);
 
     switch (interaction.commandName) {
         case 'ping':
             command?.execute(interaction, client.ws.ping);
             break;
-    
+
         default:
             command?.execute(interaction);
             break;
     }
-
-
-
 });
 
 
-
 client.login(token);
-
 
 
 export interface LangData {
     [locale: string]: {
         commands: {
             [command: string]: {
-                description: string;
+                description: string,
                 subcommands?: {
                     [subcommand: string]: {
-                        description: string;
-                        options?: {
-                            [option: string]: string;
-                        },
+                        description: string,
+                        options?: { [option: string]: string },
                         response?: string,
-                        responses?: {
-                            [response: string]: string;
-                        },
-                        labels?: {
-                            [label: string]: string;
-                        }
+                        responses?: { [response: string]: string },
+                        labels?: { [label: string]: string }
                     }
                 },
                 response?: string,
-                responses?: {
-                    [response: string]: string,
-                },
-                labels?: {
-                    [label: string]: string;
-                }
+                responses?: { [response: string]: string },
+                labels?: { [label: string]: string }
             }
-        },
-        [key: string]: any,
+        }
+        [key: string]: any
     }
 }

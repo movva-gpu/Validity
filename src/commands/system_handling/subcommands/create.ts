@@ -1,8 +1,10 @@
 import { ChatInputCommandInteraction, Locale, SlashCommandSubcommandBuilder } from 'discord.js'
+
 import { System } from '../../../classes/systemHandling/System'
 import { generateUID, getUrlResponse, saveDatabase, stringOptionNormalize, userHasSystem } from '../../../globalMethods'
 import { SystemsDataType } from '../main'
-import { langs } from '../../..';
+import { langs } from '../../..'
+
 
 export const data = new SlashCommandSubcommandBuilder()
     .setName('create')

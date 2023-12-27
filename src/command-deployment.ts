@@ -1,10 +1,11 @@
 import { REST, RESTPutAPIApplicationCommandsResult, Routes } from 'discord.js'
 import fs from 'node:fs'
 import path from 'node:path'
+
 import { clientId, token } from '../conf/clientConf.json'
 
+
 export function deployCommands(): void {
-    
     let i = 0;
     const commandPath = path.join(import.meta.dir, 'commands');
     let commandFilesAndSubFolders = fs.readdirSync(commandPath);
@@ -24,7 +25,6 @@ export function deployCommands(): void {
 
         i++;
         commandFilesAndSubFolders = commandFilesAndSubFolders.concat(folderContent);
-        
     }
 
     const commands = [];
@@ -48,8 +48,8 @@ export function deployCommands(): void {
 
             const data = await rest.put(
                 Routes.applicationCommands(clientId),
-                { body: commands },
-            );
+                { body: commands });
+
             console.info(`[INFO] Successfully reloaded ${(data as RESTPutAPIApplicationCommandsResult).length} application (/) commands.`);
         } catch (error) {
             console.error(error);

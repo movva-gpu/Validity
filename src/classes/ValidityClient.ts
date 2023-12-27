@@ -1,4 +1,5 @@
 import { Client, Collection } from 'discord.js'
+
 import { System } from './systemHandling/System'
 import { Command } from './Command'
 

@@ -10,28 +10,32 @@ import {
     User,
     Locale
 } from "discord.js"
+import * as path from 'path'
+import * as fs from 'fs'
 
 import * as embedDefaults from '../conf/embedDefaults.json'
 import { image } from '../conf/embedDefaults.json'
-import * as fs from 'fs'
 import { SystemsDataType } from "./commands/system_handling/main"
-import * as path from 'path'
 import { LangData, langs } from "."
 
 const systemsData = require('../data/data.json') as SystemsDataType;
 
+
 export function generateToken(length = 5): string {
     const authorizedChars = 'abcdefghijklmnopqrstuvwxyz0123456789';
     let token = '';
+
     for (let i = 0; i < length; i++) {
         const randomIndex = Math.floor(Math.random() * authorizedChars.length);
         token += authorizedChars.charAt(randomIndex);
     }
+
     return token;
 }
 
 export function generateUID(UIDLength = 6, tokensLength = 5): string {
     let uid = '';
+
     for (let i = 0; i < UIDLength - 1; i++) {
         uid += generateToken(tokensLength) + '-';
     }
@@ -42,7 +46,6 @@ export function generateUID(UIDLength = 6, tokensLength = 5): string {
 
     return uid += generateToken(tokensLength);
 }
-
 
 
 export function createFullEmbed(title: string, description: string | null = null,
@@ -73,17 +76,12 @@ export function createEmbed(title: string, description: string | null = null, ur
     });
 }
 
-export function createButton(emoji: ComponentEmojiResolvable, style: ButtonStyle, label: string): ButtonBuilder {
-    return new ButtonBuilder()
-        .setEmoji(emoji)
-        .setStyle(style)
-        .setLabel(label);
-}
 
 export function invokeHelpEmbed(initialMainButton: InitialHelpEmbedButton, interaction: ChatInputCommandInteraction): void {
     var helpTexts = langs['en-US'].helpTexts;
+
     if (langs[interaction.locale]?.helpTexts) helpTexts = langs[interaction.locale].helpTexts
-    const informationsEmbed = createFullEmbed(
+    const informationEmbed = createFullEmbed(
         helpTexts.info.title,
         helpTexts.info.description, image)
             .addFields(helpTexts.info.fields[0], helpTexts.info.fields[1]);
@@ -91,27 +89,27 @@ export function invokeHelpEmbed(initialMainButton: InitialHelpEmbedButton, inter
     const systemSubCommandsEmbed = createEmbed(
         helpTexts.systemSubcommands.title)
         .addFields(helpTexts.systemSubcommands.fields[0], helpTexts.systemSubcommands.fields[1], helpTexts.systemSubcommands.fields[2]);
-    
-    const informationsButton = createButton('\u2139', ButtonStyle.Secondary, helpTexts.info.buttonLabel)
+
+    const informationButton = createButton('\u2139', ButtonStyle.Secondary, helpTexts.info.buttonLabel)
         .setCustomId('info');
     const systemSubCommandsButton = createButton('📜', ButtonStyle.Secondary, helpTexts.systemSubcommands.buttonLabel)
         .setCustomId('syssubcom');
-    
+
     switch (initialMainButton) {
         case 0:
-            informationsButton.setStyle(ButtonStyle.Primary)
+            informationButton.setStyle(ButtonStyle.Primary)
             break;
-        
+
         case 1:
             systemSubCommandsButton.setStyle(ButtonStyle.Primary)
-    
+
         default:
             break;
     }
-    
-    
+
+
     const buttons = new ActionRowBuilder().addComponents(
-            informationsButton, systemSubCommandsButton
+            informationButton, systemSubCommandsButton
         ) as ActionRowBuilder<ButtonBuilder>;
 
     const messageOptions = {
@@ -121,59 +119,59 @@ export function invokeHelpEmbed(initialMainButton: InitialHelpEmbedButton, inter
 
     switch (initialMainButton) {
         case 0:
-            messageOptions.embeds = [ informationsEmbed ];
+            messageOptions.embeds = [ informationEmbed ];
             break;
-        
+
         case 1:
             messageOptions.embeds = [ systemSubCommandsEmbed ];
             break;
-    
+
         default:
             break;
     }
 
     interaction.reply(messageOptions);
-    
+
     const collector = interaction.channel?.createMessageComponentCollector();
-    
+
     collector?.on('collect', async collectorInteraction => {
-    
+
         switch (collectorInteraction.customId) {
             case 'info':
                 try {
-    
-                    informationsButton.setStyle(ButtonStyle.Primary);
+
+                    informationButton.setStyle(ButtonStyle.Primary);
                     systemSubCommandsButton.setStyle(ButtonStyle.Secondary);
-    
+
                     const newButtons = new ActionRowBuilder().addComponents(
-                        informationsButton, systemSubCommandsButton
+                        informationButton, systemSubCommandsButton
                     ) as ActionRowBuilder<ButtonBuilder>;
-    
+
                     await collectorInteraction.update({
-                        embeds: [ informationsEmbed ],
+                        embeds: [ informationEmbed ],
                         components: [ newButtons ]
                     });
-    
+
                 } catch (error) {
                     console.error(error);
                 }
                 break;
-            
+
             case 'syssubcom':
                 try {
-    
-                    informationsButton.setStyle(ButtonStyle.Secondary);
+
+                    informationButton.setStyle(ButtonStyle.Secondary);
                     systemSubCommandsButton.setStyle(ButtonStyle.Primary);
-    
+
                     const newButtons = new ActionRowBuilder().addComponents(
-                        informationsButton, systemSubCommandsButton
+                        informationButton, systemSubCommandsButton
                     ) as ActionRowBuilder<ButtonBuilder>;
-    
+
                     collectorInteraction.update({
                         embeds: [ systemSubCommandsEmbed ],
                         components: [ newButtons ]
                     });
-    
+
                 } catch (error) {
                     console.error(error);
                 }
@@ -189,49 +187,63 @@ export enum InitialHelpEmbedButton {
 }
 
 
+export function createButton(emoji: ComponentEmojiResolvable, style: ButtonStyle, label: string): ButtonBuilder {
+    return new ButtonBuilder()
+        .setEmoji(emoji)
+        .setStyle(style)
+        .setLabel(label);
+}
+
+
 export function stringOptionNormalize(interaction: ChatInputCommandInteraction, optionName: string, required: true): string
 export function stringOptionNormalize(interaction: ChatInputCommandInteraction, optionName: string): string | undefined
 export function stringOptionNormalize(interaction: ChatInputCommandInteraction, optionName: string, required?: boolean): string | undefined {
     if (interaction.options.getString(optionName, required) == null) return undefined;
+
     return interaction.options.getString(optionName, required) as string;
 }
 
 
-
 export function saveDatabase<T>(newDatabase: SystemsDataType, objectToReturnOnError: T, objectToReturnOnSuccess: T): T {
     let replyError = objectToReturnOnSuccess;
+
     fs.writeFile('data/data.json', JSON.stringify(newDatabase), function(err) {
         if (err) { console.error(err); replyError = objectToReturnOnError; } else { console.log('Database was saved'); }
     });
+
     return replyError;
 }
 
 export function userHasSystem(user: User, systemsData: SystemsDataType): boolean {
     let result = false;
+
     systemsData.systems.forEach((element) => {
         const userIDs = element.userIDs;
         for(let i = 0; i < userIDs.length; i++) {
             if (userIDs[i] == user.id) result = true;
         }
     });
+
     return result;
 }
 
 export function getUserSystemIndex(user: User, systemsData: SystemsDataType): number {
     let result = -1;
+
     systemsData.systems.forEach((element, index) => {
         const userIDs = element.userIDs;
         for(let i = 0; i < userIDs.length; i++) {
             if (userIDs[i] == user.id) result = index;
         }
     });
+
     return result;
 }
 
 
-
 export async function getUrlResponse<T>(url: URL | string, toReturnOn404: T, toReturnOnBroken: T, toReturnOnWrongType: T): Promise<T | undefined> {
     let toReturn = undefined;
+
     await fetch(url)
         .then(response => {
             response.headers.forEach((element, key) => {
@@ -241,9 +253,9 @@ export async function getUrlResponse<T>(url: URL | string, toReturnOn404: T, toR
         }).catch(() => {
             toReturn = toReturnOnBroken;
         });
+
     return toReturn;
 }
-
 
 
 export function getLangsData(log: boolean = false): LangData {
