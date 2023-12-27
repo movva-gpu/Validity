@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, Locale, SlashCommandSubcommandBuilder } from 'discord.js'
 
-import { InitialHelpEmbedButton, invokeHelpEmbed, shortenSubCommand } from '../../globalMethods'
+import { InitialHelpEmbedButton, invokeHelpEmbed } from '../../globalMethods'
 import * as create from './subcommands/create'
 import * as deleteCommand from './subcommands/delete'
 import { System } from '../../classes/systemHandling/System'
@@ -23,11 +23,7 @@ export const data = new SlashCommandBuilder()
             .setDescription(langs['en-US'].commands.system.subcommands?.help.description as string);
     })
     .addSubcommand(create.data)
-    .addSubcommand(shortenSubCommand(create.data, 'c'))
-    .addSubcommand(deleteCommand.data)
-    .addSubcommand(shortenSubCommand(deleteCommand.data, 'd'));
-
-    console.log(deleteCommand.data);
+    .addSubcommand(deleteCommand.data);
 
 
     for (const locale in langs) {
