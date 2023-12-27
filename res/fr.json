@@ -1,7 +1,7 @@
 {
     "commands": {
         "system": {
-            "description": "La commande de gestion du système. Excecute la commande /system help pour en savoir plus",
+            "description": "La commande de gestion du système. Exécute-la commande /system help pour en savoir plus",
             "subcommands": {
                 "help": {
                     "description": "Donne l'aide des sous commandes de la commande \"system\""
@@ -48,7 +48,7 @@
     "helpTexts": {
         "info": {
             "title": "Informations :information_source:",
-            "description": "Salut ^^ ! Je m'appelle Validity et je suis un bot Discord(TM) créé pour les systèmes / équipes / communautés / etc multiples, permettant de créé un système, des alters, des groupes, et de s'en servir comme pseudo-utilisateur !",
+            "description": "Salut ^^ ! Je m'appelle Validity et je suis un bot Discord(TM) créé pour les systèmes / équipes / communautés / etc. multiples, permettant de créé un système, des alters, des groupes, et de s'en servir comme pseudo-utilisateur !",
             "fields": [
                 {
                     "name": "Qu'est-ce qu'un système ?",
@@ -73,7 +73,7 @@
                     "value": "`/system create [name] <desc> <color> <avatar>`\nCette commande créée votre système ! (les arguments entre <> sont optionnels)"
                 },
                 {
-                    "name": "Sous commande de supression de système :x:",
+                    "name": "Sous commande de suppression de système :x:",
                     "value": "`/system delete`\nSupprime votre système. :warning: Ne peut être annulé ! :warning:"
                 }
             ],

@@ -15,7 +15,7 @@
                         "avatar": "A URL to an image that will represent your system"
                     },
                     "responses": {
-                        "NoError": "The system was successfuly created! :) :white_check_mark:",
+                        "NoError": "The system was successfully created! :) :white_check_mark:",
                         "AlreadyExists": "Error: It seems you already have a system :/ :x:",
                         "NotHexColor": "Error: The color must begin with `#`! :3 :x:",
                         "AvatarUrl404": "Error 404: I can't access the image your provided me! Maybe you made a typo? :x:",
@@ -34,7 +34,7 @@
                         "modalTitle": "THIS CANNOT BE UNDONE, ARE YOU SURE?"
                     },
                     "responses": {
-                        "NoError": "The system was successfuly deleted! :white_check_mark:",
+                        "NoError": "The system was successfully deleted! :white_check_mark:",
                         "UserHasNoSys":"Error: You seem to not have a system :/ :x:\nUse /system create to create one! :p",
                         "SavingError": "Error: Error while saving your file to the database. :x:\nPlease [report the issue on Github](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
                     }
@@ -42,12 +42,12 @@
             }
         },
         "info": {
-            "description": "Informations about the bot!"
+            "description": "Information about the bot!"
         }
     },
     "helpTexts": {
         "info": {
-            "title": "Informations :information_source:",
+            "title": "Information :information_source:",
             "description": "Hello ^^! I'm Validity and I'm a Discord(TM) bot designed for plural systems/teams/communities/etc, allowing you to register a system, members of this system, groups, etc.",
             "fields": [
                 {
@@ -70,7 +70,7 @@
                 },
                 {
                     "name": "System creation subcommand :white_check_mark:",
-                    "value": "`/system create [name] <desc> <color> <avatar>`\nCreates your system (the arguments between <> are optionnals)"
+                    "value": "`/system create [name] <desc> <color> <avatar>`\nCreates your system (the arguments between <> are optionals)"
                 },
                 {
                     "name": "System deletion subcommand :x:",
