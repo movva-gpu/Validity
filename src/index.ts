@@ -58,7 +58,7 @@ client.once(Events.ClientReady, async c => {
     }
     console.info('[INFO] I have all these commands:', commandFiles);
 
-    if (process.argv.filter((item) => item === '--deployCommands').length != 0) deployCommands();
+    if (process.argv.filter((item) => item === '--deploy-commands').length != 0) deployCommands();
 });
 
 
