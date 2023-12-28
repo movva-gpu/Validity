@@ -2,8 +2,9 @@ import { ChatInputCommandInteraction, EmbedBuilder, LocaleString, SlashCommandSu
 
 import * as embedDefaults from '../../../../conf/embedDefaults.json'
 import { langs } from "../../.."
-import { createFullEmbed, readDatabase } from "../../../globalMethods";
-import { System } from "../../../classes/systemHandling/System";
+import { createFullEmbed, readDatabase } from "../../../globalMethods"
+import { System } from "../../../classes/systemHandling/System"
+import { SystemsDataType } from "../main.ts"
 
 export const data = new SlashCommandSubcommandBuilder()
     .setName('show')
@@ -36,7 +37,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     const nameOption = interaction.options.getString('name');
     const uidOption = interaction.options.getString('uid');
 
-    if (nameOption && uidOption) return SystemShowInteractionReplyError.BothUIDandName;
+    if (nameOption && uidOption) return SystemShowInteractionReplyError.BothUIDAndName;
 
     let databaseRead = readDatabase();
         if (!databaseRead) { return SystemShowInteractionReplyError.ReadingError; }
@@ -46,97 +47,62 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
         let system = database.systems.find((obj: System) => obj.name === nameOption);
         if (!system) return SystemShowInteractionReplyError.NoSystemForGivenName;
 
-        let systemDesc: string | null = system.desc;            if (systemDesc === '') systemDesc = null; 
-        let systemBanner: string | null = system.banner;        if (systemBanner === '') systemBanner = null; 
-        let systemAvatar: string | null = system.avatar;        if (systemAvatar === '') systemAvatar = null; 
-        let systemColor: any = system.color;                    if (systemColor === '') systemColor = embedDefaults.color; 
-        let systemColorText = 'No color set';                   if (systemColor !== null) systemColorText = systemColor; 
-
-        let embedToReturn = createFullEmbed(system.name, systemDesc, systemAvatar, systemBanner, null, `System UID : ${system.uid} | Created on ${system.createdAt}`, systemColor, false)
-            .addFields({
-                name: 'Alters:',
-                value: `${system.alters.length}`,
-                inline: true
-            },
-            {
-                name: 'Groups:',
-                value: `${system.groups.length}`,
-                inline: true
-            },
-            {
-                name: 'Color:',
-                value: `${systemColorText}`,
-                inline: true
-            });
-        return embedToReturn;
+        return createEmbedToReturn(system, database, interaction);
     }
 
     if (uidOption) {
         let system = database.systems.find((obj: System) => obj.uid === uidOption);
         if (!system) return SystemShowInteractionReplyError.NoSystemForGivenUid;
 
-        let systemDesc: string | null = system.desc;            if (systemDesc === '') systemDesc = null; 
-        let systemBanner: string | null = system.banner;        if (systemBanner === '') systemBanner = null; 
-        let systemAvatar: string | null = system.avatar;        if (systemAvatar === '') systemAvatar = null; 
-        let systemColor: any = system.color;                    if (systemColor === '') systemColor = embedDefaults.color; 
-        let systemColorText = 'No color set';                   if (systemColor !== null) systemColorText = systemColor; 
-
-        let embedToReturn = createFullEmbed(system.name, systemDesc, systemAvatar, systemBanner, null, `System UID : ${system.uid} | Created on ${system.createdAt}`, systemColor, false)
-            .addFields({
-                name: 'Alters:',
-                value: `${system.alters.length}`,
-                inline: true
-            },
-            {
-                name: 'Groups:',
-                value: `${system.groups.length}`,
-                inline: true
-            },
-            {
-                name: 'Color:',
-                value: `${systemColorText}`,
-                inline: true
-            });
-        return embedToReturn;
+        return createEmbedToReturn(system, database, interaction);
     }
 
     if (!uidOption && !nameOption) {
         let system = database.systems.find((obj: System) => obj.userIDs.find(id => id == interaction.user.id));
         if (!system) return SystemShowInteractionReplyError.NoSystemForGivenName;
 
-        let systemDesc: string | null = system.desc;            if (systemDesc === '') systemDesc = null; 
-        let systemBanner: string | null = system.banner;        if (systemBanner === '') systemBanner = null; 
-        let systemAvatar: string | null = system.avatar;        if (systemAvatar === '') systemAvatar = null; 
-        let systemColor: any = system.color;                    if (systemColor === '') systemColor = embedDefaults.color; 
-        let systemColorText = 'No color set';                   if (systemColor !== null) systemColorText = systemColor; 
-
-        let embedToReturn = createFullEmbed(system.name, systemDesc, systemAvatar, systemBanner, null, `System UID : ${system.uid} | Created on ${system.createdAt}`, systemColor, false)
-            .addFields({
-                name: 'Alters:',
-                value: `${system.alters.length}`,
-                inline: true
-            },
-            {
-                name: 'Groups:',
-                value: `${system.groups.length}`,
-                inline: true
-            },
-            {
-                name: 'Color:',
-                value: `${systemColorText}`,
-                inline: true
-            });
-        return embedToReturn;
+        return createEmbedToReturn(system, database, interaction);
     }
 
-    return NaN;
+    return SystemShowInteractionReplyError.EtrangeErreur;
 }
 
 export enum SystemShowInteractionReplyError {
-    BothUIDandName,
+    BothUIDAndName,
 
     ReadingError,
 
     NoSystemForGivenName,
-    NoSystemForGivenUid
+    NoSystemForGivenUid,
+
+    EtrangeErreur = NaN
+}
+
+function createEmbedToReturn(system: System, database: SystemsDataType, interaction: ChatInputCommandInteraction): EmbedBuilder {
+    let showLabels = langs['en-US'].commands.system.subcommands?.show.labels as any;
+
+    if (langs[interaction.locale]?.commands.system.subcommands?.show.labels) showLabels = langs[interaction.locale].commands.system.subcommands?.show.labels as any;
+
+    let systemDesc: string | null = system.desc;            if (systemDesc === '') systemDesc = null;
+    let systemBanner: string | null = system.banner;        if (systemBanner === '') systemBanner = null;
+    let systemAvatar: string | null = system.avatar;        if (systemAvatar === '') systemAvatar = null;
+    let systemColor: any = system.color;                    if (systemColor === '') systemColor = embedDefaults.color;
+    let systemColorText = 'No color set';            if (systemColor !== null) systemColorText = systemColor;
+
+    return createFullEmbed(system.name, systemDesc, systemAvatar, systemBanner, null, `System UID : ${system.uid} | Created on ${system.createdAt}`, systemColor, false)
+        .addFields({
+                name: showLabels.altersTitle,
+                value: `${system.alters.length}`,
+                inline: true
+            },
+            {
+                name: showLabels.groupsTitle,
+                value: `${system.groups.length}`,
+                inline: true
+            },
+            {
+                name: showLabels.colorTitle,
+                value: `${systemColorText}`,
+                inline: true
+            });
 }
