@@ -81,7 +81,7 @@ export function createEmbed(title: string, description: string | null = null, ur
 
 
 export function invokeHelpEmbed(initialMainButton: InitialHelpEmbedButton, interaction: ChatInputCommandInteraction): void {
-    var helpTexts = langs['en-US'].helpTexts;
+    let helpTexts = langs['en-US'].helpTexts;
 
     if (langs[interaction.locale]?.helpTexts) helpTexts = langs[interaction.locale].helpTexts
     const informationEmbed = createFullEmbed(
@@ -105,6 +105,7 @@ export function invokeHelpEmbed(initialMainButton: InitialHelpEmbedButton, inter
 
         case 1:
             systemSubCommandsButton.setStyle(ButtonStyle.Primary)
+            break;
 
         default:
             break;
