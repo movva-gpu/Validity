@@ -1,3 +1,5 @@
+import { ColorResolvable } from 'discord.js'
+
 import { generateUID } from '../../globalMethods'
 import { Group } from './Group'
 import { Alter } from './Alter'
@@ -5,7 +7,7 @@ import { Alter } from './Alter'
 export class System {
     uid: string;
     userIDs: Array<string>;
-    color: string;
+    color: `#${string}` | undefined;
     avatar: string;
     banner: string;
     name: string;
@@ -14,7 +16,7 @@ export class System {
     alters: Array<Alter>;
     groups: Array<Group>;
 
-    constructor(uid = generateUID(), userIDs = new Array<string>(), color = '', avatar = '', banner = '', name = '', desc = '') {
+    constructor(uid = generateUID(), userIDs = new Array<string>(), color: `#${string}` | undefined, avatar = '', banner = '', name = '', desc = '') {
         this.uid = uid;
         this.userIDs = userIDs;
         this.color = color;

@@ -38,6 +38,19 @@
                         "UserHasNoSys":"Erreur : On dirait que tu n'as pas de système :/ :x:\nUtilise /system create afin d'en créer un ! :p",
                         "SavingError": "Erreur : Erreur lors de la sauvegarde dans la base de donnée. :x:\nFaites un [rapport de bug sur Github](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
                     }
+                },
+                "show": {
+                    "description": "Montre un système! (seulement une seule des deux options est utilisable à la fois)",
+                    "options": {
+                        "name": "Le nom du système",
+                        "uid": "L'identifiant unique du système"
+                    },
+                    "responses": {
+                        "BothUIDandName": "Erreur : Tu ne peux pas utiliser les deux options en même temps ! :p :x:",
+                        "ReadingError": "Erreur : Erreur  lors de la lecture de la base de donnée. :x:\nFaites un [rapport de bug sur Github](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20READING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:",
+                        "NoSystemForGivenName": "Erreur : Aucun système avec ce nom n'existe. :x:",
+                        "NoSystemForGivenUid": "Erreur : Aucun système avec cet identifiant n'existe. :x:"
+                    }
                 }
             }
         },

@@ -69,7 +69,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     const descOption = stringOptionNormalize(interaction, 'description');
 
     if (colorOption) {
-        if (!/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(colorOption)) return SystemCreateInteractionReplyError.NotHexColor;
+        if (!(colorOption.startsWith('#'))) return SystemCreateInteractionReplyError.NotHexColor;
     }
 
     if (avatarUrlOption) {
@@ -82,7 +82,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
         avatarUrl = avatarUrlOption;
     }
 
-    let system = new System(generateUID(), [ interaction.user.id ], colorOption, avatarUrl, undefined, nameOption, descOption);
+    let system = new System(generateUID(), [ interaction.user.id ], colorOption as `#${string}` | undefined, avatarUrl, undefined, nameOption, descOption);
     const newSystemData: any = systemsData;
     newSystemData.systems.push(system.toJson());
     let savingResult = saveDatabase(newSystemData, SystemCreateInteractionReplyError.SavingError, SystemCreateInteractionReplyError.NoError);

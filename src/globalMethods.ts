@@ -50,16 +50,19 @@ export function generateUID(UIDLength = 6, tokensLength = 5): string {
 
 export function createFullEmbed(title: string, description: string | null = null,
         thumbnail: string | null = null, image: string | null = null, url: string | null = null,
-        footer = embedDefaults.footer, color = embedDefaults.color as ColorResolvable): EmbedBuilder {
-    return new EmbedBuilder()
+        footer = embedDefaults.footer, color = embedDefaults.color as ColorResolvable, timestamp = true): EmbedBuilder {
+    let toReturn = new EmbedBuilder()
         .setColor(color)
         .setTitle(title)
         .setThumbnail(thumbnail)
         .setURL(url)
         .setDescription(description)
         .setImage(image)
-        .setTimestamp()
         .setFooter({ text: footer, iconURL: embedDefaults.image });
+    if (timestamp) {
+        toReturn.setTimestamp();
+    }
+    return toReturn;
 }
 
 export function createEmbed(title: string, description: string | null = null, url: string | null = null,
@@ -208,10 +211,22 @@ export function saveDatabase<T>(newDatabase: SystemsDataType, objectToReturnOnEr
     let replyError = objectToReturnOnSuccess;
 
     fs.writeFile('data/data.json', JSON.stringify(newDatabase), function(err) {
-        if (err) { console.error(err); replyError = objectToReturnOnError; } else { console.log('Database was saved'); }
+        if (err) { console.error(err); replyError = objectToReturnOnError; }
+        console.log('Database was saved');
     });
 
     return replyError;
+}
+
+export function readDatabase(): SystemsDataType | undefined {
+    let toReturn: SystemsDataType | undefined;
+    try {
+        toReturn = JSON.parse(fs.readFileSync('data/data.json').toString()) as SystemsDataType;
+    } catch (err) {
+        console.error(err);
+        toReturn = undefined;
+    }
+    return toReturn;
 }
 
 export function userHasSystem(user: User, systemsData: SystemsDataType): boolean {

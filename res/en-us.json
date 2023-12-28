@@ -38,6 +38,19 @@
                         "UserHasNoSys":"Error: You seem to not have a system :/ :x:\nUse /system create to create one! :p",
                         "SavingError": "Error: Error while saving your file to the database. :x:\nPlease [report the issue on Github](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
                     }
+                },
+                "show": {
+                    "description": "Show a system! (only one of the two options is usable)",
+                    "options": {
+                        "name": "The name of the system",
+                        "uid": "The id of the system"
+                    },
+                    "responses": {
+                        "BothUIDandName": "Error: You cannot use both uid and name options! :p :x:",
+                        "ReadingError": "Error: Error while reading database. :x:\nPlease [report the issue on Github](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20READING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:",
+                        "NoSystemForGivenName": "Error: No system with this name exists.",
+                        "NoSystemForGivenUid": "Error: No system with this id exists."
+                    }
                 }
             }
         },
