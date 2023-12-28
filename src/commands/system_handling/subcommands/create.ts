@@ -1,9 +1,9 @@
-import { ChatInputCommandInteraction, Locale, SlashCommandSubcommandBuilder } from 'discord.js'
+import {ChatInputCommandInteraction, Locale, SlashCommandSubcommandBuilder} from 'discord.js'
 
-import { System } from '../../../classes/systemHandling/System'
-import { generateUID, getUrlResponse, saveDatabase, stringOptionNormalize, userHasSystem } from '../../../globalMethods'
-import { SystemsDataType } from '../main'
-import { langs } from '../../..'
+import {System} from '../../../classes/systemHandling/System'
+import {generateUID, getUrlResponse, saveDatabase, stringOptionNormalize, userHasSystem} from '../../../globalMethods'
+import {SystemsDataType} from '../main'
+import {langs} from '../../..'
 
 
 export const data = new SlashCommandSubcommandBuilder()
@@ -59,7 +59,7 @@ export const data = new SlashCommandSubcommandBuilder()
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<SystemCreateInteractionReplyError> {
     const systemsData: SystemsDataType = require('../../../../data/data.json');
-    var avatarUrl: string | undefined;
+    let avatarUrl: string | undefined;
 
     if (userHasSystem(interaction.user, systemsData)) return SystemCreateInteractionReplyError.AlreadyExists;
     
@@ -85,10 +85,8 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     let system = new System(generateUID(), [ interaction.user.id ], colorOption as `#${string}` | undefined, avatarUrl, undefined, nameOption, descOption);
     const newSystemData: any = systemsData;
     newSystemData.systems.push(system.toJson());
-    let savingResult = saveDatabase(newSystemData, SystemCreateInteractionReplyError.SavingError, SystemCreateInteractionReplyError.NoError);
-    return savingResult;
+    return saveDatabase(newSystemData, SystemCreateInteractionReplyError.SavingError, SystemCreateInteractionReplyError.NoError);
 }
-
 
 export enum SystemCreateInteractionReplyError {
 

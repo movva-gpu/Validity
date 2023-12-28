@@ -8,21 +8,23 @@ import {
     TextInputBuilder
 } from "discord.js"
 
-import { getUserSystemIndex, saveDatabase, userHasSystem } from "../../../globalMethods"
-import { SystemsDataType } from "../main"
-import { langs } from "../../.."
+import {getUserSystemIndex, saveDatabase, userHasSystem} from "../../../globalMethods"
+import {SystemsDataType} from "../main"
+import {langs} from "../../.."
 
 
 export const data = new SlashCommandSubcommandBuilder()
     .setName('delete')
     .setDescription(langs['en-US'].commands.system.subcommands?.delete.description as string);
-    for (const locale in langs) { data.setDescriptionLocalization(locale as Locale, langs[locale].commands.system.subcommands?.delete.description as string) }
+    for (const locale in langs) { data.setDescriptionLocalization(locale as Locale,
+        langs[locale].commands.system.subcommands?.delete.description as string) }
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<SystemDeleteInteractionReplyError> {
 
     var deleteLabels = langs['en-US'].commands.system.subcommands?.delete.labels as any;
 
-    if (langs[interaction.locale]?.commands.system.subcommands?.delete.labels) deleteLabels = langs[interaction.locale].commands.system.subcommands?.delete.labels as any;
+    if (langs[interaction.locale]?.commands.system.subcommands?.delete.labels) deleteLabels =
+        langs[interaction.locale].commands.system.subcommands?.delete.labels as any;
 
     const systemsData: SystemsDataType = require('../../../../data/data.json');
 

@@ -1,10 +1,10 @@
-import { ChatInputCommandInteraction, EmbedBuilder, LocaleString, SlashCommandSubcommandBuilder } from "discord.js"
+import {ChatInputCommandInteraction, EmbedBuilder, LocaleString, SlashCommandSubcommandBuilder} from "discord.js"
 
 import * as embedDefaults from '../../../../conf/embedDefaults.json'
-import { langs } from "../../.."
-import { createFullEmbed, readDatabase } from "../../../globalMethods"
-import { System } from "../../../classes/systemHandling/System"
-import { SystemsDataType } from "../main.ts"
+import {langs} from "../../.."
+import {createFullEmbed, readDatabase} from "../../../globalMethods"
+import {System} from "../../../classes/systemHandling/System"
+import {SystemsDataType} from "../main.ts"
 
 export const data = new SlashCommandSubcommandBuilder()
     .setName('show')
@@ -16,7 +16,8 @@ export const data = new SlashCommandSubcommandBuilder()
             .setMinLength(3)
             .setMaxLength(64);
         for (const locale in langs) {
-            nameOption.setDescriptionLocalization(locale as LocaleString, langs[locale].commands.system.subcommands?.show.options?.name as string);
+            nameOption.setDescriptionLocalization(locale as LocaleString,
+                langs[locale].commands.system.subcommands?.show.options?.name as string);
         }
         return nameOption;
     })
@@ -27,11 +28,13 @@ export const data = new SlashCommandSubcommandBuilder()
             .setMinLength(35) // by default generateUID() generates a string of length 35 characters
             .setMaxLength(35);
         for (const locale in langs) {
-            uidOption.setDescriptionLocalization(locale as LocaleString, langs[locale].commands.system.subcommands?.show.options?.uid as string);
+            uidOption.setDescriptionLocalization(locale as LocaleString,
+                langs[locale].commands.system.subcommands?.show.options?.uid as string);
         }
         return uidOption;
     });
-    for (const locale in langs) { data.setDescriptionLocalization(locale as LocaleString, langs[locale].commands.system.subcommands?.show.description as string); }
+    for (const locale in langs) { data.setDescriptionLocalization(locale as LocaleString,
+        langs[locale].commands.system.subcommands?.show.description as string); }
 
 export async function execute(interaction: ChatInputCommandInteraction): Promise<SystemShowInteractionReplyError | EmbedBuilder> {
     const nameOption = interaction.options.getString('name');

@@ -7,16 +7,16 @@ import {
     ComponentEmojiResolvable,
     EmbedBuilder,
     InteractionReplyOptions,
-    User,
-    Locale
+    Locale,
+    User
 } from "discord.js"
 import * as path from 'path'
 import * as fs from 'fs'
 
 import * as embedDefaults from '../conf/embedDefaults.json'
-import { image } from '../conf/embedDefaults.json'
-import { SystemsDataType } from "./commands/system_handling/main"
-import { LangData, langs } from "."
+import {image} from '../conf/embedDefaults.json'
+import {SystemsDataType} from "./commands/system_handling/main"
+import {LangData, langs} from "."
 
 const systemsData = require('../data/data.json') as SystemsDataType;
 
@@ -50,7 +50,8 @@ export function generateUID(UIDLength = 6, tokensLength = 5): string {
 
 export function createFullEmbed(title: string, description: string | null = null,
         thumbnail: string | null = null, image: string | null = null, url: string | null = null,
-        footer = embedDefaults.footer, color = embedDefaults.color as ColorResolvable, timestamp = true): EmbedBuilder {
+        footer = embedDefaults.footer, color = embedDefaults.color as ColorResolvable,
+        timestamp = true): EmbedBuilder {
     let toReturn = new EmbedBuilder()
         .setColor(color)
         .setTitle(title)
@@ -201,7 +202,8 @@ export function createButton(emoji: ComponentEmojiResolvable, style: ButtonStyle
 
 export function stringOptionNormalize(interaction: ChatInputCommandInteraction, optionName: string, required: true): string
 export function stringOptionNormalize(interaction: ChatInputCommandInteraction, optionName: string): string | undefined
-export function stringOptionNormalize(interaction: ChatInputCommandInteraction, optionName: string, required?: boolean): string | undefined {
+export function stringOptionNormalize(interaction: ChatInputCommandInteraction,
+    optionName: string, required?: boolean): string | undefined {
     if (interaction.options.getString(optionName, required) == null) return undefined;
 
     return interaction.options.getString(optionName, required) as string;
@@ -257,7 +259,8 @@ export function getUserSystemIndex(user: User, systemsData: SystemsDataType): nu
 }
 
 
-export async function getUrlResponse<T>(url: URL | string, toReturnOn404: T, toReturnOnBroken: T, toReturnOnWrongType: T): Promise<T | undefined> {
+export async function getUrlResponse<T>(url: URL | string, toReturnOn404: T, toReturnOnBroken: T,
+    toReturnOnWrongType: T): Promise<T | undefined> {
     let toReturn = undefined;
 
     await fetch(url)
