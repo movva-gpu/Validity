@@ -46,7 +46,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
         .setTitle(deleteLabels.modalTitle)
         .setCustomId('replyModal');
     modal.addComponents(actionRow);
-    
+
 
 
     await interaction.showModal(modal);

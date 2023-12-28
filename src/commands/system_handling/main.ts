@@ -17,7 +17,8 @@ export const data = new SlashCommandBuilder()
     .setDescription(langs['en-US'].commands.system.description as string)
     .addSubcommand((subcommand) => {
         for (const locale in langs) {
-            subcommand.setDescriptionLocalization(locale as LocaleString, langs[locale].commands.system.subcommands?.help.description as string);
+            subcommand.setDescriptionLocalization(locale as LocaleString,
+                langs[locale].commands.system.subcommands?.help.description as string);
         }
         return subcommand
             .setName('help')
@@ -43,7 +44,8 @@ export async function execute(interaction: ChatInputCommandInteraction) {
             case 'create':
                 let createResponses = langs['en-US'].commands.system.subcommands?.create.responses as any;
 
-                if (langs[interaction.locale]?.commands.system.subcommands?.create.responses) createResponses = langs[interaction.locale].commands.system.subcommands?.create.responses as any;
+                if (langs[interaction.locale]?.commands.system.subcommands?.create.responses)
+                    createResponses = langs[interaction.locale].commands.system.subcommands?.create.responses as any;
                 await create.execute(interaction).then(error => {
                     let errorString: string = create.SystemCreateInteractionReplyError[error];
 
@@ -54,7 +56,8 @@ export async function execute(interaction: ChatInputCommandInteraction) {
             case 'delete':
                 let deleteResponses = langs['en-US'].commands.system.subcommands?.delete.responses as any;
 
-                if (langs[interaction.locale]?.commands.system.subcommands?.delete.responses) deleteResponses = langs[interaction.locale].commands.system.subcommands?.delete.responses as any;
+                if (langs[interaction.locale]?.commands.system.subcommands?.delete.responses)
+                    deleteResponses = langs[interaction.locale].commands.system.subcommands?.delete.responses as any;
                 await deleteCommand.execute(interaction).then(error => {
                     let errorString: string = deleteCommand.SystemDeleteInteractionReplyError[error];
 
@@ -65,11 +68,12 @@ export async function execute(interaction: ChatInputCommandInteraction) {
             case 'show':
                 let showResponses = langs['en-US'].commands.system.subcommands?.show.responses as any;
 
-                if (langs[interaction.locale]?.commands.system.subcommands?.show.responses) showResponses = langs[interaction.locale].commands.system.subcommands?.show.responses as any;
+                if (langs[interaction.locale]?.commands.system.subcommands?.show.responses)
+                    showResponses = langs[interaction.locale].commands.system.subcommands?.show.responses as any;
                 await show.execute(interaction).then(embedOrError => {
-                    if (!(embedOrError instanceof EmbedBuilder)) { console.log(embedOrError);
+                    if (!(embedOrError instanceof EmbedBuilder)) {
                         let errorString: string = show.SystemShowInteractionReplyError[embedOrError];
-                        
+
                         interaction.reply(showResponses[errorString]);
                         return;
                     }

@@ -62,7 +62,7 @@ export async function execute(interaction: ChatInputCommandInteraction): Promise
     let avatarUrl: string | undefined;
 
     if (userHasSystem(interaction.user, systemsData)) return SystemCreateInteractionReplyError.AlreadyExists;
-    
+
     const nameOption = stringOptionNormalize(interaction, 'name', true) as string;
     const colorOption = stringOptionNormalize(interaction, 'color');
     const avatarUrlOption = stringOptionNormalize(interaction, 'avatar');
