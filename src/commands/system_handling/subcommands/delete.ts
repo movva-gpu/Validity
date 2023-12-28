@@ -82,3 +82,5 @@ export enum SystemDeleteInteractionReplyError {
 
     UnknownError
 }
+
+// TODO: Fix modal interaction
