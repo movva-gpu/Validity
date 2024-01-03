@@ -143,6 +143,7 @@ function handleInteractionReply(result: unknown, interaction: ChatInputCommandIn
     if (result instanceof MessageCollector) {
         interaction.reply(specific ?? 'Specific result missing in files for `/system ' + commandName + '`.');
         result.on('collect', async (message) => {
+            // TODO : finish /system delete command. (somehow in the file and not here :/). 
             message.channel.send(success ?? 'Success result missing in files for `/system ' + commandName + '`.');
         });
         result.on('end', (m, reason) => {
