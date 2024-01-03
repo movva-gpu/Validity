@@ -14,30 +14,12 @@
                         "description": "Tell people more about your system! (max. 1024 characters)",
                         "avatar": "A URL to an image that will represent your system"
                     },
-                    "responses": {
-                        "NoError": "System successfully created! :) :white_check_mark:",
-                        "AlreadyExists": "Error: It seems you already have a system :/ :x:",
-                        "NotHexColor": "Error: The color must begin with `#`! :3 :x:",
-                        "AvatarUrl404": "Error 404: I can't access the image your provided me! Maybe you made a typo? :x:",
-                        "AvatarUrlIsBroken": "Error: You link seems unusable! Maybe you made a typo? :x:",
-                        "AvatarWrongType": "Error: The link you gave doesn't lead to an image! :x:",
-                        "SavingError": "Error: Issue detected while saving your file to database. :x:\nPlease [report the issue on GitHub](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
-                    }
+                    "success": "System successfully created! :) :white_check_mark:"
                 },
                 "delete": {
                     "description": "Delete your system!",
-                    "labels": {
-                        "textInput": {
-                            "title": "Input your system’s name to delete your system",
-                            "placeholder": "System name"
-                        },
-                        "modalTitle": "THIS CANNOT BE UNDONE, ARE YOU SURE?"
-                    },
-                    "responses": {
-                        "NoError": "System successfully deleted! :white_check_mark:",
-                        "UserHasNoSys":"Error: You seem to not have a system :/ :x:\nUse /system create to create one! :p",
-                        "SavingError": "Error: Issue detected while saving your file to the database. :x:\nPlease [report the issue on GitHub](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
-                    }
+                    "specific": ":warning: Are you sure? This cannot be undone! :warning:\nTo confirm please enter the name of your system:",
+                    "success": "System successfully deleted! :white_check_mark:"
                 },
                 "show": {
                     "description": "Show a system! (only one of the two options is usable)",
@@ -50,14 +32,38 @@
                         "groupsTitle": "Groups:",
                         "colorTitle": "Colors:",
                         "userIDsTitle": "User(s):"
-                    },
-                    "responses": {
-                        "BothUIDAndName": "Error: You cannot use both uid and name options! :p :x:",
-                        "ReadingError": "Error: Issue detected while reading database. :x:\nPlease [report the issue on GitHub](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20READING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:",
-                        "NoSystemForGivenName": "Error: No system with this name exists.",
-                        "NoSystemForGivenUid": "Error: No system with this ID exists."
+                    }
+                },
+                "set": {
+                    "description": "Set your system's data!",
+                    "options": {
+                        "property": "Property to be changed",
+                        "value": "New value"
                     }
                 }
+            },
+            "responses": {
+                "SavingError": "Error: Issue detected while saving your file to database. :x:\nPlease [report the issue on GitHub](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:",
+                "ReadingError": "Error: Issue detected while reading database. :x:\nPlease [report the issue on GitHub](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20READING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:",
+                
+                "ImageUrl404": "Error 404: I can't access the image your provided me! Maybe you made a typo? :x:",
+                "ImageUrlIsBroken": "Error: You link seems unusable! Maybe you made a typo? :x:",
+                "ImageWrongType": "Error: The link you gave doesn't lead to an image! :x:",
+
+                "NameLength": "Error: The name must be 3 to 64 characters! :x:",
+                "DescLength": "Error: The description must not be over 1,024 characters! :x:",
+                
+                "NotHexColor": "Error: The color must begin with `#`! :3 :x:",
+                "TooMuchOptions":"Error: You cannot use both uid and name options! :p :x:",
+                
+                "NoUserSys":"Error: You seem to not have a system :/ :x:\nUse `/system create` to create one! :p",
+                "NoSysForName": "Error: No system with this name exists.",
+                "NoSysForUid": "Error: No system with this ID exists.",
+                "AlreadyExists": "Error: It seems you already have a system :/ :x:",
+
+                "Timeout": "Error: You took more than 60 seconds! :x:",
+
+                "NonSensical": "Error: That error shouldn't have happened! :x:\nPlease [report the issue on GitHub](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20READING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
             }
         },
         "info": {

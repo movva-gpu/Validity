@@ -22,7 +22,7 @@
   },
   "include": [
     "src/**/*",
-    "res/*.json",
+    "lang/*.json",
     "conf/*.json"
   ],
 }

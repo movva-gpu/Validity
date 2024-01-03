@@ -4,13 +4,13 @@ import * as path from 'path'
 
 import { ValidityClient } from './classes/ValidityClient'
 import { token } from '../conf/clientConf.json'
-import { getLangsData } from './globalMethods'
-import { deployCommands } from './command-deployment'
+import { getLangsData } from './global_methods'
+import { deployCommands } from './command_deployment'
 
 const parrotSay = require('parrotsay-api'); // More about it here : https://github.com/matheuss/parrotsay-api
 
 
-const client = new ValidityClient({ intents: [GatewayIntentBits.Guilds] });
+const client = new ValidityClient({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages] });
 
 export const langs = getLangsData(true);
 
@@ -18,7 +18,7 @@ export const langs = getLangsData(true);
 client.once(Events.ClientReady, async c => {
     console.log('\n\n'); // To center the *parrot*
 
-    await parrotSay('\n   Hello discord.js! I\'m logged in as ' + client.user?.tag + '!   \n')
+    await parrotSay('\n  Hello discord.js! I\'m logged in as ' + client.user?.tag + '!   \n')
         .then(console.info)
         .catch(console.error);
     client.user?.setActivity({ name: 'Trying to understand itself.', type: ActivityType.Playing, state: 'online' });
@@ -95,6 +95,8 @@ export interface LangData {
                         options?: { [option: string]: string },
                         response?: string,
                         responses?: { [response: string]: string },
+                        specific?: string,
+                        success: string,
                         labels?: { [label: string]: string }
                     }
                 },
@@ -103,6 +105,6 @@ export interface LangData {
                 labels?: { [label: string]: string }
             }
         }
-        [key: string]: any
+        [key: string]: unknown
     }
 }

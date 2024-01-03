@@ -1,7 +1,7 @@
-import { ChatInputCommandInteraction, Locale, SlashCommandBuilder } from "discord.js"
+import { ChatInputCommandInteraction, Locale, SlashCommandBuilder } from 'discord.js'
 
-import { InitialHelpEmbedButton, invokeHelpEmbed } from "../globalMethods"
-import { langs } from "..";
+import { InitialHelpEmbedButton, invokeHelpEmbed } from '../global_methods'
+import { langs } from '..';
 
 
 export const data = new SlashCommandBuilder()

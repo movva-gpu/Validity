@@ -1,23 +1,25 @@
-import { generateToken } from '../../globalMethods'
+import { generateToken } from '../../global_methods'
 
-export class Group {
+export class Alter {
     token: string;
-    alters: Array<string>; // It will be registered as an Array of alters' token.
     color: string;
     avatar: string;
     banner: string;
     name: string;
+    displayName: string;
+    pronouns: string;
     date: string;
     desc: string;
 
-    constructor(token = generateToken(), alters = new Array<string>(), color = '', avatar = '', banner = '',
-            name = '', desc = '') {
+    constructor(token = generateToken(), color = '', avatar = '', banner = '', name = '', displayName = '',
+            pronouns = '', desc = '') {
         this.token = token;
-        this.alters = alters;
         this.color = color;
         this.avatar = avatar;
         this.banner = banner;
         this.name = name;
+        this.displayName = displayName;
+        this.pronouns = pronouns;
         this.date = (Date.now().toString as unknown as string);
         this.desc = desc;
     }

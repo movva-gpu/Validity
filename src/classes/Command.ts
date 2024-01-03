@@ -1,6 +1,7 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js'
+import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js'
 
-export class Command {
-    data = new SlashCommandBuilder().setName('').setDescription('').setDescriptionLocalizations({});
-    public execute(interaction: ChatInputCommandInteraction, ...args: any): any { return; }
+export type Command = {
+    data: SlashCommandBuilder;
+    execute: (arg0: ChatInputCommandInteraction, ...args: unknown[]) => Promise<number | unknown | void>;
+    // Unknown is when the command can return something different, like an EmbedBuilder or a MessageCollector.
 }

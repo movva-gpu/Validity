@@ -1,10 +1,19 @@
-import {ChatInputCommandInteraction, Locale, SlashCommandSubcommandBuilder} from 'discord.js'
+import { ChatInputCommandInteraction, Locale, SlashCommandSubcommandBuilder } from 'discord.js'
 
-import {System} from '../../../classes/systemHandling/System'
-import {generateUID, getUrlResponse, saveDatabase, stringOptionNormalize, userHasSystem} from '../../../globalMethods'
-import {SystemsDataType} from '../main'
-import {langs} from '../../..'
+import { System} from '../../../classes/system_handling/System'
 
+import {
+    generateUID,
+    getLangsData,
+    getUrlResponse,
+    saveDatabase,
+    stringOptionNormalize,
+    userHasSystem
+} from '../../../global_methods'
+
+import { DatabaseError, OptionError, SystemError, SystemsDataType } from '../system'
+
+const langs = getLangsData();
 
 export const data = new SlashCommandSubcommandBuilder()
     .setName('create')
@@ -29,8 +38,8 @@ export const data = new SlashCommandSubcommandBuilder()
         return option
             .setName('color')
             .setDescription(langs['en-US'].commands.system.subcommands?.create.options?.color as string)
-            .setMinLength(4) // #234
-            .setMaxLength(7); // #234567
+            .setMinLength(7)
+            .setMaxLength(7); // #789000, 1 for #, 2 for red, 2 for green and 2 for blue. no support for web colors.
     })
     .addStringOption(option => {
         for (const locale in langs) {
@@ -57,52 +66,33 @@ export const data = new SlashCommandSubcommandBuilder()
             locale as Locale, langs[locale].commands.system.subcommands?.create.description as string);
     }
 
-export async function execute(interaction: ChatInputCommandInteraction): Promise<SystemCreateInteractionReplyError> {
+export async function execute(interaction: ChatInputCommandInteraction): Promise<number | void> {
+    const colorRegex = /^#[0-9A-Fa-f]{6}$/i;
+    
     const systemsData: SystemsDataType = require('../../../../data/data.json');
     let avatarUrl: string | undefined;
 
-    if (userHasSystem(interaction.user, systemsData)) return SystemCreateInteractionReplyError.AlreadyExists;
+    if (userHasSystem(interaction.user, systemsData)) return SystemError.AlreadyExists;
 
     const nameOption = stringOptionNormalize(interaction, 'name', true) as string;
-    const colorOption = stringOptionNormalize(interaction, 'color');
+    let colorOption = stringOptionNormalize(interaction, 'color');
     const avatarUrlOption = stringOptionNormalize(interaction, 'avatar');
     const descOption = stringOptionNormalize(interaction, 'description');
 
     if (colorOption) {
-        if (!(colorOption.startsWith('#'))) return SystemCreateInteractionReplyError.NotHexColor;
+        if (!(colorRegex.test(colorOption))) return OptionError.NotHexColor;
     }
 
     if (avatarUrlOption) {
-        let error = await getUrlResponse(
-            avatarUrlOption, SystemCreateInteractionReplyError.AvatarUrl404,
-            SystemCreateInteractionReplyError.AvatarUrlIsBroken,
-            SystemCreateInteractionReplyError.AvatarWrongType);
+        let error = await getUrlResponse(avatarUrlOption);
 
-        if(error) return error;
+        if(error) return error as number;
         avatarUrl = avatarUrlOption;
     }
 
-    let system = new System(generateUID(), [ interaction.user.id ], colorOption as `#${string}` | undefined, avatarUrl, undefined, nameOption, descOption);
-    const newSystemData: any = systemsData;
+    let system = new System(generateUID(), [ interaction.user.id ], colorOption, avatarUrl,
+        undefined, nameOption, descOption);
+    const newSystemData = systemsData;
     newSystemData.systems.push(system.toJson());
-    return saveDatabase(newSystemData, SystemCreateInteractionReplyError.SavingError, SystemCreateInteractionReplyError.NoError);
-}
-
-export enum SystemCreateInteractionReplyError {
-
-    NoError,
-
-
-    AlreadyExists,
-
-
-    NotHexColor,
-
-
-    AvatarUrl404,
-    AvatarUrlIsBroken,
-    AvatarWrongType,
-
-
-    SavingError
+    return saveDatabase(newSystemData, DatabaseError.SavingError);
 }

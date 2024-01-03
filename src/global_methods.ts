@@ -9,14 +9,13 @@ import {
     InteractionReplyOptions,
     Locale,
     User
-} from "discord.js"
+} from 'discord.js'
 import * as path from 'path'
 import * as fs from 'fs'
 
 import * as embedDefaults from '../conf/embedDefaults.json'
-import {image} from '../conf/embedDefaults.json'
-import {SystemsDataType} from "./commands/system_handling/main"
-import {LangData, langs} from "."
+import { DatabaseError, OptionError, SystemsDataType } from './commands/system_handling/system.ts'
+import { LangData, langs } from '.'
 
 const systemsData = require('../data/data.json') as SystemsDataType;
 
@@ -82,12 +81,12 @@ export function createEmbed(title: string, description: string | null = null, ur
 
 
 export function invokeHelpEmbed(initialMainButton: InitialHelpEmbedButton, interaction: ChatInputCommandInteraction): void {
-    let helpTexts = langs['en-US'].helpTexts;
+    let helpTexts = langs['en-US'].helpTexts as any;
 
     if (langs[interaction.locale]?.helpTexts) helpTexts = langs[interaction.locale].helpTexts
     const informationEmbed = createFullEmbed(
         helpTexts.info.title,
-        helpTexts.info.description, image)
+        helpTexts.info.description, embedDefaults.image)
             .addFields(helpTexts.info.fields[0], helpTexts.info.fields[1]);
 
     const systemSubCommandsEmbed = createEmbed(
@@ -210,15 +209,13 @@ export function stringOptionNormalize(interaction: ChatInputCommandInteraction,
 }
 
 
-export function saveDatabase<T>(newDatabase: SystemsDataType, objectToReturnOnError: T, objectToReturnOnSuccess: T): T {
-    let replyError = objectToReturnOnSuccess;
-
+export function saveDatabase<T, K>(newDatabase: SystemsDataType, objectToReturnOnError = DatabaseError.SavingError as T, objectToReturnOnSuccess?: K): T | K | void {
     fs.writeFile('data/data.json', JSON.stringify(newDatabase), function(err) {
-        if (err) { console.error(err); replyError = objectToReturnOnError; }
+        if (err) { console.error(err); return objectToReturnOnError; }
         console.log('Database was saved');
     });
 
-    return replyError;
+    return objectToReturnOnSuccess ? objectToReturnOnSuccess: undefined;
 }
 
 export function readDatabase(): SystemsDataType | undefined {
@@ -245,23 +242,32 @@ export function userHasSystem(user: User, systemsData: SystemsDataType): boolean
     return result;
 }
 
-export function getUserSystemIndex(user: User, systemsData: SystemsDataType): number {
-    let result = -1;
-
+export function getUserSystemIndex(user: User, systemsData: SystemsDataType): number | void {
     systemsData.systems.forEach((element, index) => {
         const userIDs = element.userIDs;
         for(let i = 0; i < userIDs.length; i++) {
-            if (userIDs[i] == user.id) result = index;
+            if (userIDs[i] == user.id) return index;
+        }
+    });
+}
+
+export function findUserSystem(user: User): number {
+    let toReturn = NaN;
+    systemsData.systems.forEach((element, index) => {
+        const userIDs = element.userIDs;
+        for(let i = 0; i < userIDs.length; i++) {
+            if (userIDs[i] == user.id) toReturn = index;
         }
     });
 
-    return result;
+    return toReturn;
 }
 
 
-export async function getUrlResponse<T>(url: URL | string, toReturnOn404: T, toReturnOnBroken: T,
-    toReturnOnWrongType: T): Promise<T | undefined> {
-    let toReturn = undefined;
+export async function getUrlResponse<T>(url: URL | string, toReturnOn404 = OptionError.ImageUrl404 as T,
+    toReturnOnBroken = OptionError.ImageUrlIsBroken as T, toReturnOnWrongType = OptionError.ImageWrongType as T,
+    toReturnOnSuccess: any = false): Promise<T | false> {
+    let toReturn: T | false = toReturnOnSuccess;
 
     await fetch(url)
         .then(response => {
@@ -277,8 +283,8 @@ export async function getUrlResponse<T>(url: URL | string, toReturnOn404: T, toR
 }
 
 
-export function getLangsData(log: boolean = false): LangData {
-    const absoluteLangPath = path.join(import.meta.dir, '..', 'res/');
+export function getLangsData(log = false): LangData {
+    const absoluteLangPath = path.join(import.meta.dir, '..', 'lang/');
     const notFound: string[] = [];
     const langsData: LangData = {};
 
@@ -288,7 +294,8 @@ export function getLangsData(log: boolean = false): LangData {
             let langFilePath = path.join(absoluteLangPath, `${localeId}.json`);
             langsData[localeId] = JSON.parse(fs.readFileSync(langFilePath, 'utf-8'));
         } catch (error) {
-            notFound.push(locale);
+            let localeId = Locale[locale as keyof typeof Locale];
+            notFound.push(localeId);
         }
     }
 

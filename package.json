@@ -2,7 +2,7 @@
   "name": "validityre",
   "module": "src/index.ts",
   "type": "module",
-  "version": "0.1.1.0",
+  "version": "0.1.1.2",
   "devDependencies": {
     "bun-types": "^1.0.20"
   },
@@ -13,5 +13,6 @@
     "discord.js": "^14.14.1",
     "parrotsay-api": "^0.1.1",
     "typescript": "^5.0.0"
-  }
+  },
+  "main": "src/index.ts"
 }

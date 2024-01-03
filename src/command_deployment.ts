@@ -1,8 +1,8 @@
-import {REST, RESTPutAPIApplicationCommandsResult, Routes} from 'discord.js'
-import fs from 'node:fs'
-import path from 'node:path'
+import { REST, RESTPutAPIApplicationCommandsResult, Routes } from 'discord.js'
+import fs from 'fs'
+import path from 'path'
 
-import {clientId, token} from '../conf/clientConf.json'
+import { clientId, token } from '../conf/clientConf.json'
 
 
 export function deployCommands(): void {
@@ -51,7 +51,7 @@ export function deployCommands(): void {
                 { body: commands });
 
             console.info(`[INFO] Successfully reloaded ${(data as RESTPutAPIApplicationCommandsResult).length}
-                         application (/) commands.`);
+                        application (/) commands.`);
         } catch (error) {
             console.error(error);
         }
