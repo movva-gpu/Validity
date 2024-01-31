@@ -32,12 +32,12 @@ It serves the exact same use as [PluralKit](https://pluralkit.me), depending on 
 <div id=commands>
 
 ### Commands
-*  `/info ` gives information about the bot and plurality.
-*  `/ping ` gives the ping of the bot. Only for development purposes.
-*  `/system help ` gives all the system commands.
-*  `/system create ` creates a system.
-*  `/system delete ` removes your system.
-* . . . more are to come.
+*  `/info` gives information about the bot and plurality.
+*  `/ping` gives the ping of the bot. Only for development purposes.
+*  `/system help` gives all the system commands.
+*  `/system create` creates a system.
+*  `/system delete` removes your system.
+* . . . and more are to come.
 </div>
 
 <div id=install>
