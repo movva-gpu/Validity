@@ -31,6 +31,4 @@ conf/
 
 data/
 
-package-lock.json
-
-bun.lockb
+.prettierrc

@@ -1,7 +1,7 @@
-import { Client, Collection } from 'discord.js'
+import { Client, Collection } from 'discord.js';
 
-import { System } from './system_handling/System'
-import { Command } from './Command'
+import { System } from './system_handling/System';
+import { Command } from './Command';
 
 export class ValidityClient extends Client {
     private _commands = new Collection<string, Command>();

@@ -1,4 +1,4 @@
-import { generateToken } from '../../global_methods'
+import { generateToken } from '../../global_methods';
 
 export class Group {
     token: string;
@@ -10,15 +10,22 @@ export class Group {
     date: string;
     desc: string;
 
-    constructor(token = generateToken(), alters = new Array<string>(), color = '', avatar = '', banner = '',
-            name = '', desc = '') {
+    constructor(
+        token = generateToken(),
+        alters = new Array<string>(),
+        color = '',
+        avatar = '',
+        banner = '',
+        name = '',
+        desc = ''
+    ) {
         this.token = token;
         this.alters = alters;
         this.color = color;
         this.avatar = avatar;
         this.banner = banner;
         this.name = name;
-        this.date = (Date.now().toString as unknown as string);
+        this.date = Date.now().toString as unknown as string;
         this.desc = desc;
     }
 }

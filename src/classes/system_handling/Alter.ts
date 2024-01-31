@@ -1,4 +1,4 @@
-import { generateToken } from '../../global_methods'
+import { generateToken } from '../../global_methods';
 
 export class Alter {
     token: string;
@@ -11,8 +11,16 @@ export class Alter {
     date: string;
     desc: string;
 
-    constructor(token = generateToken(), color = '', avatar = '', banner = '', name = '', displayName = '',
-            pronouns = '', desc = '') {
+    constructor(
+        token = generateToken(),
+        color = '',
+        avatar = '',
+        banner = '',
+        name = '',
+        displayName = '',
+        pronouns = '',
+        desc = ''
+    ) {
         this.token = token;
         this.color = color;
         this.avatar = avatar;
@@ -20,7 +28,7 @@ export class Alter {
         this.name = name;
         this.displayName = displayName;
         this.pronouns = pronouns;
-        this.date = (Date.now().toString as unknown as string);
+        this.date = Date.now().toString as unknown as string;
         this.desc = desc;
     }
 }
