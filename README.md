@@ -3,7 +3,7 @@
 
 <img src=https://i.imgur.com/KeYGWJc.png alt=logo width=256 height=256 style=image-rendering:pixelated;>
 
-# Validity:RE
+# Validity
 </div>
 
 <div align="center">
