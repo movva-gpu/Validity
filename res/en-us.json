@@ -21,7 +21,7 @@
                         "AvatarUrl404": "Error 404: I can't access the image your provided me! Maybe you made a typo? :x:",
                         "AvatarUrlIsBroken": "Error: You link seems to be unusable! Maybe you made a typo? :x:",
                         "AvatarWrongType": "Error: The link you gave isn't an image! :x:",
-                        "SavingError": "Error: Error while saving your file to the database. :x:\nPlease [report the issue on Github](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
+                        "SavingError": "Error: Error while saving your file to the database. :x:\nPlease [report the issue on Github](https://github.com/movva-gpu/Validity/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
                     }
                 },
                 "delete": {
@@ -36,7 +36,7 @@
                     "responses": {
                         "NoError": "The system was successfuly created! :) :white_check_mark:",
                         "UserHasNoSys":"Error: You seem to not have a system :/ :x:\nUse /system create to create one! :p",
-                        "SavingError": "Error: Error while saving your file to the database. :x:\nPlease [report the issue on Github](https://github.com/movva-gpu/ValidityRE/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
+                        "SavingError": "Error: Error while saving your file to the database. :x:\nPlease [report the issue on Github](https://github.com/movva-gpu/Validity/issues/new?title=[DATABASE%20SAVING]&body=(Please%20put%20the%20command%20you%20input%20here))! :arrow_left:"
                     }
                 }
             }

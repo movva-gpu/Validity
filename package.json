@@ -1,5 +1,5 @@
 {
-  "name": "validityre",
+  "name": "validity",
   "module": "src/index.ts",
   "type": "module",
   "version": "0.1.0",
